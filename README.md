@@ -1,3 +1,3 @@
-# Cinema Booking Document
+# Authen Cinema Booking Document
 
 - Front-end: Next JS, Redux, Redux Saga.
