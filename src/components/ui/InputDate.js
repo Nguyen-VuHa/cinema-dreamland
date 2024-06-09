@@ -1,5 +1,5 @@
 'use client'
-
+import '~/assets/styles/input-date.scss'
 import React, { useEffect, useState } from 'react';
 import { PiCalendarHeartFill } from "react-icons/pi";
 import { generateYears, getMonthCalendar } from '~/utils/calender';
@@ -36,6 +36,8 @@ const toDay = dayjs().date()
 const daysOfWeek = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
 
 function InputDate({ placeholder, classNameInput, value, onChange }) {
+    // state status open dropdown
+    const [isDropDown, setIsDropDown] = useState(false)
 
     // day list follow by month and year selected
     const [calendars, setCalendars] = useState([])
@@ -80,20 +82,23 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                 focus:!border-primary
                 placeholder-input-place
                 hover:bg-hover hover:transition-all
+                cursor-pointer group
                 `
             }
+            onClick={() => {
+                setIsDropDown(!isDropDown)
+            }}
         >
             <span className='text-input-place'>{daySelect && dateString || (placeholder || 'DD/MM/YYYY')}</span>
             <PiCalendarHeartFill 
-                className='text-[24px] cursor-pointer text-primary'
+                className='text-[24px] cursor-pointer transition-all group-hover:text-primary'
             />
         </div>
+        {/* Drop down */}
         <div 
-            className='
-                absolute top-[110%] left-[0] z-[999] 
-                w-full min-h-[100px] bg-layout-second
-                p-3 rounded-md text-white space-y-2
-            '
+            className={`absolute top-[110%] left-[0] z-[999] 
+            w-full min-h-[100px] bg-layout-second
+            p-3 rounded-md text-white space-y-2 input-date-dropdown ${isDropDown && 'show' || ''}`}
         >
             {/* header input date */}
             <div className='w-full flex justify-between items-center '>
@@ -117,7 +122,7 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                 </div>
                 <div className='flex space-x-2'>
                     <InputSelect 
-                        className='border-2 rounded text-sm'
+                        className='border-2 cursor-pointer border-hover text-input-place hover:border-primary transition-all rounded text-sm'
                         placeholder="Thang"
                         data={Months}
                         value={month}
@@ -126,7 +131,7 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                         }}
                     />
                     <InputSelect 
-                        className='border-2 rounded text-sm'
+                        className='border-2 cursor-pointer text-input-place border-hover hover:border-primary rounded text-sm transition-all'
                         placeholder="Nam"
                         data={years}
                         value={year}
@@ -172,8 +177,6 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                 }
                
             </div>
-
-
             <div className='w-full grid grid-cols-7 gap-1'>
                 {
                     calendars && calendars.length > 0 &&
@@ -197,6 +200,7 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
 
                                         onClick={() => {
                                             setDaySelect(childCalendar)
+                                            setIsDropDown(false)
                                         }}
                                     >
                                         {childCalendar}
