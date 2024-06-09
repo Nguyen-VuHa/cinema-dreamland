@@ -10,7 +10,7 @@ function Input({ className, classNameInput,  placeholder, inputChange, value, ty
         }>
             <input 
                 className={classNameInput || '' + 
-                    ` w-full border-2 border-solid border-transparent
+                    `w-full border-2 border-solid border-transparent
                     rounded-md shadow-0 bg-layout-second text-[white]
                     px-3 py-2
                     transition-all
