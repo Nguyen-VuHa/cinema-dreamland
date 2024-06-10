@@ -1,16 +1,20 @@
 
 import { NextResponse } from 'next/server';
-
+import cookie from 'cookie';
 export function middleware(req) {
   // Lấy cookie từ request
-  const { cookies, nextUrl } = req;
-  const token = cookies['access_token'];
+  const { nextUrl } = req;
+  const cookies = cookie.parse(req.headers.get('cookie') || '');
   const { pathname } = nextUrl;
 
   const excludedPaths = ['/auth/sign-in', '/auth/sign-up', '/public'];
 
-    // Loại trừ các tệp tĩnh như CSS, JS, hình ảnh
+  // Loại trừ các tệp tĩnh như CSS, JS, hình ảnh
   const staticFileExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico'];
+
+  if (cookies.access_token && excludedPaths.includes(pathname)) {
+    return NextResponse.redirect(new URL('/', req.url)); // Chuyển hướng đến trang chủ hoặc bất kỳ trang nào khác
+  }
 
   // Kiểm tra nếu URL nằm trong danh sách loại trừ
   if (excludedPaths.includes(pathname) || staticFileExtensions.some(ext => pathname.endsWith(ext))) {
@@ -18,7 +22,7 @@ export function middleware(req) {
   }
 
   // Kiểm tra giá trị của cookie
-  if (!token) {
+  if (!cookies.access_token) {
     // Nếu không có token, chuyển hướng đến trang đăng nhập
     return NextResponse.redirect(new URL('/auth/sign-in', req.url));
   }

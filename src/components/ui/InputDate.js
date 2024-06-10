@@ -1,6 +1,6 @@
 'use client'
 import '~/assets/styles/input-date.scss'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PiCalendarHeartFill } from "react-icons/pi";
 import { generateYears, getMonthCalendar } from '~/utils/calender';
 import InputSelect from './InputSelect';
@@ -36,6 +36,9 @@ const toDay = dayjs().date()
 const daysOfWeek = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
 
 function InputDate({ placeholder, classNameInput, value, onChange }) {
+    const selectRef = useRef(null);
+    const dropdownRef = useRef(null);
+
     // state status open dropdown
     const [isDropDown, setIsDropDown] = useState(false)
 
@@ -70,8 +73,46 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
 
     }, [daySelect])
 
+    const handleOutsideClick = (event) => {
+        if (selectRef.current && !selectRef.current.contains(event.target)) {
+            setIsDropDown(false);
+        }
+      };
+    
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isDropDown) {
+          const rect = selectRef.current.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          const windowWidth = window.innerWidth;
+    
+          if (windowHeight - rect.bottom < dropdownRef.current.clientHeight) {
+            dropdownRef.current.style.bottom = '110%';
+            dropdownRef.current.style.top = 'auto';
+          } else {
+            dropdownRef.current.style.top = '110%';
+            dropdownRef.current.style.bottom = 'auto';
+          }
+    
+          if (windowWidth - rect.right < dropdownRef.current.clientWidth) {
+            dropdownRef.current.style.right = '0';
+            dropdownRef.current.style.left = 'auto';
+          } else {
+            dropdownRef.current.style.left = '0';
+            dropdownRef.current.style.right = 'auto';
+          }
+        }
+      }, [isDropDown]);
+
   return (
-    <div className='w-full relative'>
+    <div className='w-full relative' ref={selectRef}>
         <div
             className={classNameInput || '' + 
                 `flex justify-between items-center w-full border-2 border-solid border-transparent
@@ -96,9 +137,10 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
         </div>
         {/* Drop down */}
         <div 
-            className={`absolute top-[110%] left-[0] z-[999] 
+            className={`absolute z-[999] 
             w-full min-h-[100px] bg-layout-second
             p-3 rounded-md text-white space-y-2 input-date-dropdown ${isDropDown && 'show' || ''}`}
+            ref={dropdownRef}
         >
             {/* header input date */}
             <div className='w-full flex justify-between items-center '>
