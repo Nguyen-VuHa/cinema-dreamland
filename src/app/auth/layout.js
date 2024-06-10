@@ -14,11 +14,11 @@ function LayoutAuth({ children }) {
                     '
                 >
                     <Image
-                        className='pb-10' 
+                        className='pb-5' 
                         alt='NO LOGO'
                         src="/logo.png"
-                        width={200}
-                        height={55}
+                        width={150}
+                        height={1}
                     />
                     {children}  
                 </div>

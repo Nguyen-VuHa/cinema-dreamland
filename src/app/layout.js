@@ -8,6 +8,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi" suppressHydrationWarning={true}>
+      <head>
+        <link rel="icon" href="/icon.png" />
+      </head>
       <body>{children}</body>
     </html>
   );
