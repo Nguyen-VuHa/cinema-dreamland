@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { CiLock, CiUnlock  } from "react-icons/ci";
 
-function InputPassword({ className, classNameInput, placeholder, inputChange, value, errMessage, children }, ref) {
+function InputPassword({ className, classNameInput, placeholder, onChange, value, errMessage, children }, ref) {
 
     const [passwordShow, setPasswordShow] = useState(false)
 
@@ -27,7 +27,7 @@ function InputPassword({ className, classNameInput, placeholder, inputChange, va
                 placeholder={placeholder || 'Nhập gì đó . . .'}
                 ref={ref}
                 onChange={(e) => {
-                    inputChange && inputChange(e.target.value, e)
+                    onChange && onChange(e.target.value, e)
                 }}
                 value={value}
                 type={passwordShow ? 'text' : 'password'}
@@ -47,8 +47,7 @@ function InputPassword({ className, classNameInput, placeholder, inputChange, va
                 }}
             >
                 {
-                    passwordShow ?  <CiUnlock />
-                    : <CiLock />
+                    passwordShow ? <CiUnlock /> : <CiLock />
                 }
                
             </div>  

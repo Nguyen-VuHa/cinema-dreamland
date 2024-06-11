@@ -4,6 +4,7 @@ import FacebookLoginButton from '~/components/pages/SignIn/FacebookButton';
 import GoogleLoginButton from '~/components/pages/SignIn/GoogleButton';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
+import InputPassword from '~/components/ui/InputPassword';
 
 function SignInPage() {
     return (
@@ -12,9 +13,9 @@ function SignInPage() {
                 className='w-full'
                 placeholder="Email"
             />
-            <Input 
+            <InputPassword 
                 className='w-full'
-                placeholder="Mật Khẩu"
+                placeholder="Mật khẩu"
             />
             <div className='flex space-x-2'>
                 <span className='text-input-place'>Bạn chưa có tài khoản?</span>

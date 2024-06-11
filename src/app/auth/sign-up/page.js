@@ -17,7 +17,7 @@ function SignUpPage() {
             /> 
             <InputPassword 
                 className='w-full'
-                placeholder="Mật Khẩu"
+                placeholder="Mật khẩu"
                 type="password"
             /> 
             <Input 

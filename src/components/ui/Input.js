@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function Input({ className, classNameInput,  placeholder, inputChange, value, type, errMessage, children }, ref) {
+function Input({ className, classNameInput,  placeholder, onChange, value, type, errMessage, children }, ref) {
     return (
         <div className={
             (className || '') + 
@@ -23,7 +23,7 @@ function Input({ className, classNameInput,  placeholder, inputChange, value, ty
                 placeholder={placeholder || 'Nhập gì đó . . .'}
                 ref={ref}
                 onChange={(e) => {
-                    inputChange && inputChange(e.target.value, e)
+                    onChange && onChange(e.target.value, e)
                 }}
                 value={value}
                 type={type || 'text'}

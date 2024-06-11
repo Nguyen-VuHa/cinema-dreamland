@@ -149,12 +149,12 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                         className='border-2 rounded border-primary p-1 hover:bg-hover hover:text-primary transition-all' 
                         type='button'
                         onClick={() => {
-                            if(month - 1 > 0) {
-                                setMonth(month - 1)
+                            if(parseInt(month) - 1 > 0) {
+                                setMonth(parseInt(month) - 1)
                             } else {
-                                if(year > minYear) {
+                                if(parseInt(year) > minYear) {
                                     setMonth(12)
-                                    setYear(year - 1)
+                                    setYear(parseInt(year) - 1)
                                 }
                             }
                         }}
@@ -187,12 +187,12 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                         className='border-2 rounded border-primary p-1 hover:bg-hover hover:text-primary transition-all' 
                         type='button'
                         onClick={() => {
-                            if(month + 1 <= 12) {
-                                setMonth(month + 1)
+                            if(parseInt(month) + 1 <= 12) {
+                                setMonth(parseInt(month) + 1)
                             } else {
-                                if(year < maxYear) {
+                                if(parseInt(year) < maxYear) {
                                     setMonth(1)
-                                    setYear(year + 1)
+                                    setYear(parseInt(year) + 1)
                                 }
                             }
                         }}
