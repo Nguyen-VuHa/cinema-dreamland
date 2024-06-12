@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const authSlice = createSlice({ 
+const authSlice = createSlice({ 
     name: 'authentication',
     initialState: {
         // status
@@ -14,7 +14,6 @@ export const authSlice = createSlice({
         },
         errorSignIn: {},
     
-       
         // state register
         formSignUp: {
             fullName: '',
@@ -27,4 +26,14 @@ export const authSlice = createSlice({
         },
         errorSignUp: {},
     },
+    reducers: {  
+        setValueFormSignUp: (state, { payload }) => {
+            const { key, value } = payload;
+            state.formSignUp[key] = value 
+        }, 
+    }
 })
+
+export const actionAuth = authSlice.actions;
+
+export default authSlice.reducer;

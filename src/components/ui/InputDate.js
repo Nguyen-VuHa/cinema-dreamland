@@ -130,8 +130,8 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                 setIsDropDown(!isDropDown)
             }}
         >
-            <span className='text-input-place'>{daySelect && dateString || (placeholder || 'DD/MM/YYYY')}</span>
-            <PiCalendarHeartFill 
+            <span className={`${!daySelect && 'text-input-place'}`}>{daySelect && dateString || (placeholder || 'DD/MM/YYYY')}</span>
+            <PiCalendarHeartFill  
                 className='text-[24px] cursor-pointer transition-all group-hover:text-primary'
             />
         </div>

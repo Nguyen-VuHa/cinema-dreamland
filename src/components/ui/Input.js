@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function Input({ className, classNameInput,  placeholder, onChange, value, type, errMessage, children }, ref) {
+function Input({ className, classNameInput, placeholder, onChange, value, name, type, errMessage, children }, ref) {
     return (
         <div className={
             (className || '') + 
@@ -27,6 +27,7 @@ function Input({ className, classNameInput,  placeholder, onChange, value, type,
                 }}
                 value={value}
                 type={type || 'text'}
+                name={name}
                 {...children}
              />
             {
