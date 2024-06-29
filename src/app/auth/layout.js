@@ -17,6 +17,7 @@ function LayoutAuth({ children }) {
                         className='pb-5 max-md:p-0 w-[100px]' 
                         alt='NO LOGO'
                         src="/logo.png"
+                        priority
                         width={150}
                         height={1}
                     />

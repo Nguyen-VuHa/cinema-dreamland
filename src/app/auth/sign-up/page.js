@@ -7,6 +7,7 @@ import GoogleLoginButton from '~/components/pages/SignIn/GoogleButton';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
 import InputDate from '~/components/ui/InputDate';
+import InputEmail from '~/components/ui/InputEmail';
 import InputPassword from '~/components/ui/InputPassword';
 import { actionAuth } from '~/redux/reducers/authReducer';
 
@@ -16,7 +17,7 @@ function SignUpPage() {
 
     return (
         <form className='w-full space-y-3'>
-            <Input 
+            <InputEmail 
                 className='w-full'
                 placeholder="Email"
                 name="email"
