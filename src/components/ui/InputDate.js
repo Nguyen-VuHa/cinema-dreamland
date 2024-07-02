@@ -29,15 +29,12 @@ const minYear = 1900
 // Data years start 1900 from now.
 const years = generateYears(minYear, maxYear)
 
-// Data today for checking active and set default value
-const toDay = dayjs().date()
-
 // data day of week Vietnamese
 const daysOfWeek = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
 
-function InputDate({ placeholder, classNameInput, value, onChange }) {
-    const selectRef = useRef(null);
-    const dropdownRef = useRef(null);
+function InputDate({ placeholder, classNameInput, value, onChange, errMessage}) {
+    const selectRef = useRef(null); // ref - trạng thái component select
+    const dropdownRef = useRef(null); // ref - trạng thái component drop down 
 
     // state status open dropdown
     const [isDropDown, setIsDropDown] = useState(false)
@@ -70,7 +67,6 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
 
             onChange && onChange(dayValue.format('YYYY-MM-DD'), dayValue) // return dateString, dayjs
         }
-
     }, [daySelect])
 
     const handleOutsideClick = (event) => {
@@ -135,6 +131,9 @@ function InputDate({ placeholder, classNameInput, value, onChange }) {
                 className='text-[24px] cursor-pointer transition-all group-hover:text-primary'
             />
         </div>
+        {
+            errMessage && <small className='text-error font-extralight italic'>{ errMessage }</small>
+        }
         {/* Drop down */}
         <div 
             className={`absolute z-[999] 

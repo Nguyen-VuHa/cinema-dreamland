@@ -5,7 +5,7 @@ const authSlice = createSlice({
     initialState: {
         // status
         isLogin: false,
-        isSignUp: false,
+        isProcesSignUp: false,
 
         // state sign-in
         formSignIn: {
@@ -16,13 +16,11 @@ const authSlice = createSlice({
     
         // state register
         formSignUp: {
-            fullName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            numberPhone: '',
+            fullName: 'Nguyễn Vũ Hạ',
+            email: 'vuha201199',
+            password: '123123123',
+            phoneNumber: '0388318629',
             birthDay: '',
-            address: '',
         },
         errorSignUp: {},
     },
@@ -31,6 +29,27 @@ const authSlice = createSlice({
             const { key, value } = payload;
             state.formSignUp[key] = value 
         }, 
+        setValueErrorFormSignUp: (state, { payload }) => {
+            state.errorSignUp = {
+                ...state.errorSignUp,
+                ...payload, 
+            } 
+        }, 
+        removeKeyErrorSignUp: (state, { payload }) => {
+            delete state.errorSignUp[payload]
+        }, 
+        // handle state send API sign up account
+        processSignUpAccount: (state) => {
+            state.isProcesSignUp = true
+        },
+        singUpAccountSuccess: (state, { payload }) => {
+            console.log(payload);
+            state.isProcesSignUp = false
+        },
+        singUpAccountFailed: (state, { payload }) => {
+            console.log(payload);
+            state.isProcesSignUp = false
+        },
     }
 })
 
