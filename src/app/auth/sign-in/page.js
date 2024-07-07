@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link';
 import React from 'react';
 import FacebookLoginButton from '~/components/pages/SignIn/FacebookButton';
@@ -5,8 +6,11 @@ import GoogleLoginButton from '~/components/pages/SignIn/GoogleButton';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
 import InputPassword from '~/components/ui/InputPassword';
+import useToastify from '~/hooks/useToastify';
 
 function SignInPage() {
+    const toastMessage = useToastify()
+
     return (
         <form className='w-full space-y-3'>
             <Input 
@@ -26,6 +30,14 @@ function SignInPage() {
             <div className='divide-y divide-primary space-y-3'>
                 <Button
                     // type="submit"
+                    onClick={() => {
+                        toastMessage({
+                            type: 'INFO',
+                            payload: {
+                                message: "Đăng Nhập Thất Bại",
+                            }
+                        })
+                    }}
                 >
                     Đăng Nhập
                 </Button>
