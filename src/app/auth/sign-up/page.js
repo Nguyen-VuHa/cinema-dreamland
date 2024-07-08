@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FacebookLoginButton from '~/components/pages/SignIn/FacebookButton';
 import GoogleLoginButton from '~/components/pages/SignIn/GoogleButton';
@@ -15,13 +16,23 @@ import { signUpSchema } from '~/validations/authSchema';
 function SignUpPage() {
     // khai báo dispatch sử dụng hook useDispatch để gửi các action lên Redux
     const dispatch = useDispatch()
+    const router = useRouter()
     
      // access vào store Redux lấy data 
-    const { formSignUp, isProcesSignUp } = useSelector(state => state.authState)
+    const { formSignUp, isProcesSignUp, statusSignUp } = useSelector(state => state.authState)
     const { email, password, fullName, birthDay, phoneNumber } = formSignUp
 
     const errorSignUp  = useSelector(state => state.authState.errorSignUp)
 
+
+    useEffect(() => { // lắng nghe sự thay đổi của trạng thái đăng ký
+        // nếu ký thành công thì điều hướng về trang đăng nhập
+        if(statusSignUp) {
+            router.push('/auth/sign-in')
+
+            dispatch(actionAuth.setValueStatusSignUp(false))
+        }
+    }, [statusSignUp])
 
     // hàm kiểm tra dữ liệu form Sign Up truơc khi send request
     const validationDataFormSignUp = async () => {
@@ -42,7 +53,8 @@ function SignUpPage() {
     };
 
     // khoởi tạo function thực hiện việc 
-    const handleSubmitSignUp = async () => {
+    const handleSubmitSignUp = async (event) => {
+        event.preventDefault();
         let validate = await validationDataFormSignUp() 
 
         if(validate) {
@@ -135,9 +147,9 @@ function SignUpPage() {
             </div>
             <div className='divide-y divide-primary space-y-3'>
                 <Button
-                    // type="submit"
-                    onClick={() => {
-                        handleSubmitSignUp()
+                    type="submit"
+                    onClick={(e) => {
+                        handleSubmitSignUp(e)
                     }}
                     loading={isProcesSignUp}
                 >

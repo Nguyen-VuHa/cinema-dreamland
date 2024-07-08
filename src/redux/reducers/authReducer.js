@@ -3,9 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({ 
     name: 'authentication',
     initialState: {
+        isAuthentication: false,
         // status
         isLogin: false,
+        // process đăng ký -> loading
         isProcesSignUp: false,
+
+        // trạng thái quá trinhf đăng ký thành công hoặc thất bại 
+        statusSignUp: false,
 
         // state sign-in
         formSignIn: {
@@ -16,19 +21,44 @@ const authSlice = createSlice({
     
         // state register
         formSignUp: {
-            fullName: 'Nguyễn Vũ Hạ',
-            email: 'vuha201199',
-            password: '123123123',
-            phoneNumber: '0388318629',
+            fullName: '',
+            email: '',
+            password: '',
+            phoneNumber: '',
             birthDay: '',
         },
         errorSignUp: {},
     },
     reducers: {  
+        //set trạng thái đăng ký
+        setValueStatusSignUp: (state, { payload }) => {
+            state.statusSignUp = payload
+        },
+        clearFormSignUp: (state) => {
+            // set value in form default
+            state.formSignUp = {
+                fullName: '',
+                email: '',
+                password: '',
+                phoneNumber: '',
+                birthDay: '',
+            }
+            state.errorSignUp = {}
+        },
+        clearFormSignIn: (state) => {
+            // set value in form default
+            state.formSignUp = {
+                email: '',
+                password: '',
+            }
+            state.errorSignIn = {}
+        },
+        // set value form theo key trong object form data
         setValueFormSignUp: (state, { payload }) => {
             const { key, value } = payload;
             state.formSignUp[key] = value 
         }, 
+         // set value error form theo key trong object form error data
         setValueErrorFormSignUp: (state, { payload }) => {
             state.errorSignUp = {
                 ...state.errorSignUp,
@@ -42,13 +72,16 @@ const authSlice = createSlice({
         processSignUpAccount: (state) => {
             state.isProcesSignUp = true
         },
-        singUpAccountSuccess: (state, { payload }) => {
-            console.log(payload);
+        singUpAccountSuccess: (state, _) => {
+            // set process về trạng thái cũ
             state.isProcesSignUp = false
+            // set trạng thái đắng ký thành công
+            state.statusSignUp = true
         },
-        singUpAccountFailed: (state, { payload }) => {
-            console.log(payload);
+        singUpAccountFailed: (state, _) => {
             state.isProcesSignUp = false
+            // set trạng thái đắng ký thất bại
+            state.statusSignUp = false
         },
     }
 })

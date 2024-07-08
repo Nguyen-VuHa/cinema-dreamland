@@ -54,6 +54,14 @@ function InputDate({ placeholder, classNameInput, value, onChange, errMessage}) 
     const [dateValue, setDateValue] = useState(null)
 
     useEffect(() => {
+        if(!value) {
+            setDaySelect(null)
+            setDateString('')
+            setDateValue(null)
+        }
+    }, [value])
+
+    useEffect(() => {
         const calendar = getMonthCalendar(year, month);
         setCalendars(calendar)
     }, [year, month])
