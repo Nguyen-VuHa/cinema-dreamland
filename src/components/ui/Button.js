@@ -6,8 +6,10 @@ import { HashLoader } from 'react-spinners';
 function Button({ className, type, loading, loadingText, onClick,  children }) {
     return (
         <button
-            className={ className || '' + 
-                `flex justify-center items-center w-full px-3 py-2 text-white border-2 border-primary/60 rounded-md bg-layout-primary  hover:border-primary hover:bg-hover transition-all`
+            className={ 
+                `flex justify-center items-center w-full px-3 py-2 text-white border-2 
+                border-primary/60 rounded-md bg-layout-primary  
+                hover:border-primary hover:bg-hover transition-all ${className || ''}`
             }
             type={type || 'button'}
             onClick={(e) => {

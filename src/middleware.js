@@ -1,13 +1,14 @@
 
 import { NextResponse } from 'next/server';
 import cookie from 'cookie';
+
 export function middleware(req) {
   // Lấy cookie từ request
   const { nextUrl } = req;
   const cookies = cookie.parse(req.headers.get('cookie') || '');
   const { pathname } = nextUrl;
 
-  const excludedPaths = ['/auth/sign-in', '/auth/sign-up', '/public'];
+  const excludedPaths = ['/auth/sign-in', '/auth/sign-up', '/auth/otp-verification',  '/public'];
 
   // Loại trừ các tệp tĩnh như CSS, JS, hình ảnh
   const staticFileExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico'];

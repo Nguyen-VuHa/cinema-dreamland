@@ -2,15 +2,14 @@
 
 import React from 'react';
 
-function Input({ className, classNameInput, placeholder, onChange, value, name, type, errMessage, children }, ref) {
+function Input({ className, classNameInput, placeholder, onChange, value, name, type, errMessage, ...children }, ref) {
     return (
         <div className={
             (className || '') + 
             ` w-full space-y-2`
         }>
             <input 
-                className={classNameInput || '' + 
-                    `w-full border-2 border-solid border-transparent
+                className={ `${classNameInput || ''} w-full border-2 border-solid border-transparent
                     rounded-md shadow-0 bg-layout-second text-[white]
                     px-3 py-2
                     transition-all
@@ -18,8 +17,7 @@ function Input({ className, classNameInput, placeholder, onChange, value, name, 
                     focus:!border-primary
                     placeholder-input-place
                     hover:bg-hover hover:transition-all
-                    `
-                }
+                `}
                 placeholder={placeholder || 'Nhập gì đó . . .'}
                 ref={ref}
                 onChange={(e) => {
