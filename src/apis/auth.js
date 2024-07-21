@@ -6,3 +6,9 @@ export const apiSignUpAccount = (payload) => {
 
     return axiosClient.post(apiPath, payload)
 }
+
+export const apiSignInAccount = (payload) => {
+    const apiPath = '/auth/sign-in'
+
+    return axiosClient.post(apiPath, payload)
+}

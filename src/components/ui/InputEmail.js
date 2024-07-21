@@ -95,7 +95,7 @@ function InputEmail({ className, classNameInput, placeholder, onChange, value, n
                 className={`absolute 
                 w-full min-h-[40px] bg-layout-second
                 p-3 rounded-md text-white space-y-2 input-date-dropdown show border-[1px] border-layout-primary space-y-1
-                ${!value.includes("@") && isDropdown ? "z-[100] opacity-1" : "z-[-1] opacity-[0]"}
+                ${value && !value.includes("@") && isDropdown ? "z-[100] opacity-1" : "z-[-1] opacity-[0]"}
                 `}
             >
                 {

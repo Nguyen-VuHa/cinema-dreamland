@@ -18,7 +18,7 @@ function SignUpPage() {
     const dispatch = useDispatch()
     const router = useRouter()
     
-     // access vào store Redux lấy data 
+    // access vào store Redux lấy data 
     const { formSignUp, isProcesSignUp, statusSignUp } = useSelector(state => state.authState)
     const { email, password, fullName, birthDay, phoneNumber } = formSignUp
 
@@ -32,7 +32,7 @@ function SignUpPage() {
 
             dispatch(actionAuth.setValueStatusSignUp(false))
         }
-    }, [statusSignUp])
+    }, [statusSignUp, dispatch])
 
     // hàm kiểm tra dữ liệu form Sign Up truơc khi send request
     const validationDataFormSignUp = async () => {
