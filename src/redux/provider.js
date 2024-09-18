@@ -6,8 +6,8 @@ import { store } from './store'
 import ToasitfyMessage from '~/components/toastify/Toastify.Main'
 // import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { usePathname } from 'next/navigation'
-import SideBar from '~/components/layouts/SideBar'
-import Header from '~/components/layouts/Header'
+import SideBar from '~/components/layouts/SideBar/SideBar'
+import Header from '~/components/layouts/Header/Header'
 
 // Initialize an agent at application startup.
 // const fpPromise = FingerprintJS.load();
@@ -47,7 +47,7 @@ function ReduxProvider({children}) {
           </div>
           <div className="flex w-full h-auto text-primary">
             <SideBar />
-            <div className='ml-[20%] w-full'>
+            <div className='w-full md:ml-[30%] lg:ml-[25%] xl:ml-[20%] 2xl:ml-[17%]'>
               <Header />
               {children}
             </div>

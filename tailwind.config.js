@@ -25,10 +25,10 @@ module.exports = {
         'success': '#22c55e',
         'white': '#fff',
       },
-      // spacing: {
-      //   'sidebar': '30%',
-      //   // Thêm các giá trị pixel chuẩn khác nếu cần
-      // },
+      width: {
+        'full-name-with': 'calc(100% - 68px)', // Tuỳ chỉnh cho width
+        'menu-icon-with': 'calc(100% - 33px)', // Tuỳ chỉnh cho width
+      },
     },
   },
   plugins: [],
