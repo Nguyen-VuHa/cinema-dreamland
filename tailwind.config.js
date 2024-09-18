@@ -6,6 +6,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/redux/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -25,7 +26,7 @@ module.exports = {
         'white': '#fff',
       },
       // spacing: {
-      //   'text': '1rem',
+      //   'sidebar': '30%',
       //   // Thêm các giá trị pixel chuẩn khác nếu cần
       // },
     },

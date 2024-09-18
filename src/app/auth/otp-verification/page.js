@@ -1,17 +1,19 @@
-'use client'
+"use client"
 
-import { useSearchParams } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation'
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
 import { actionAuth } from '~/redux/reducers/authReducer';
 import { removeVietnameseTones } from '~/utils/language';
 
-function OTPVerification() {
-    const searchParams = useSearchParams();
-    const email = searchParams.get('_email'); // Lấy giá trị email từ query string
-
+  
+function OTPVerificationPage() {
+    const searchParams = useSearchParams()
+    
+    const email = searchParams.get('_email')
+    
     const dispatch = useDispatch()
     const length = 6 // số input nhập OTP
 
@@ -103,54 +105,55 @@ function OTPVerification() {
     }
 
     return (
-        <div className='space-y-2 w-full'>
-            <div className='flex justify-around items-center w-full space-x-2'>
-                {Array.from({ length }, (_, index) => (
-                    <Input 
-                        key={index}
-                        classNameInput="text-center caret-transparent select-none"
-                        placeholder=" "
-                        type="text"
-                        ref={(el) => (inputRefs.current[index] = el)}
-                        onChange={(_, e) => {
-                            handleInputChange(e, index)
-                        }}
-                        onClick={(e) => {
-                            const regex = /^[a-zA-Z0-9]*$/;
-                            if(regex.test(e.target.value)) {
-                                let valueText = removeVietnameseTones(e.target.value)
-                                valueInputFocusRef.current = valueText.toUpperCase()
-                            }
-                        }}
-                        onFocus={(e) => {
-                            const regex = /^[a-zA-Z0-9]*$/;
-                            if(regex.test(e.target.value)) {
-                                let valueText = removeVietnameseTones(e.target.value)
-                                valueInputFocusRef.current = valueText.toUpperCase()
-                            }
-                        }}
-                        onKeyDown={(event) => handleKeyDown(event, index)}
-                        onPaste={(e) => handlePaste(e, index)}
-                    />
-                ))}
+       
+            <div className='space-y-2 w-full'>
+                <div className='flex justify-around items-center w-full space-x-2'>
+                    {Array.from({ length }, (_, index) => (
+                        <Input 
+                            key={index}
+                            classNameInput="text-center caret-transparent select-none"
+                            placeholder=" "
+                            type="text"
+                            ref={(el) => (inputRefs.current[index] = el)}
+                            onChange={(_, e) => {
+                                handleInputChange(e, index)
+                            }}
+                            onClick={(e) => {
+                                const regex = /^[a-zA-Z0-9]*$/;
+                                if(regex.test(e.target.value)) {
+                                    let valueText = removeVietnameseTones(e.target.value)
+                                    valueInputFocusRef.current = valueText.toUpperCase()
+                                }
+                            }}
+                            onFocus={(e) => {
+                                const regex = /^[a-zA-Z0-9]*$/;
+                                if(regex.test(e.target.value)) {
+                                    let valueText = removeVietnameseTones(e.target.value)
+                                    valueInputFocusRef.current = valueText.toUpperCase()
+                                }
+                            }}
+                            onKeyDown={(event) => handleKeyDown(event, index)}
+                            onPaste={(e) => handlePaste(e, index)}
+                        />
+                    ))}
+                </div>
+                <div className='text-error text-xs italic'>{messageError}</div>
+                <div className='flex space-x-2'>
+                    <span className='text-input-place'>Bạn chưa nhận được OTP?</span>
+                    <button className='text-primary hover:underline transition-all'>
+                        Gửi lại
+                    </button>
+                </div>
+                <Button 
+                    className="w-full"
+                    onClick={() => {
+                        handleSubmitConfirmOTP()
+                    }}
+                >
+                    Xác Thực OTP
+                </Button>
             </div>
-            <div className='text-error text-xs italic'>{messageError}</div>
-            <div className='flex space-x-2'>
-                <span className='text-input-place'>Bạn chưa nhận được OTP?</span>
-                <button className='text-primary hover:underline transition-all'>
-                    Gửi lại
-                </button>
-            </div>
-            <Button 
-                className="w-full"
-                onClick={() => {
-                    handleSubmitConfirmOTP()
-                }}
-            >
-                Xác Thực OTP
-            </Button>
-        </div>
     );
 }
 
-export default OTPVerification;
+export default OTPVerificationPage;
