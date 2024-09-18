@@ -20,14 +20,8 @@ export function middleware(req) {
   // Kiểm tra nếu URL nằm trong danh sách loại trừ
   if (excludedPaths.includes(pathname) || staticFileExtensions.some(ext => pathname.endsWith(ext))) {
     return NextResponse.next();
-  }
-
-  // Kiểm tra giá trị của cookie
-  if (!cookies.access_token) {
-    // Nếu không có token, chuyển hướng đến trang đăng nhập
-    return NextResponse.redirect(new URL('/auth/sign-in', req.url));
-  }
-
+  }  
+  
   // Nếu có token, cho phép yêu cầu tiếp tục
   return NextResponse.next();
 }
