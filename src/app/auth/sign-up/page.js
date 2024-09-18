@@ -58,7 +58,15 @@ function SignUpPage() {
         let validate = await validationDataFormSignUp() 
 
         if(validate) {
-            dispatch(actionAuth.processSignUpAccount(formSignUp))
+            const payload = {
+                email: formSignUp.email,
+                password: formSignUp.password,
+                full_name: formSignUp.fullName,
+                birth_day: formSignUp.birthDay,
+                phone_number: formSignUp.phoneNumber,
+            }
+
+            dispatch(actionAuth.processSignUpAccount(payload))
         }
     }
 

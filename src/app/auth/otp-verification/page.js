@@ -1,10 +1,18 @@
 'use client'
+
+import { useSearchParams } from 'next/navigation';
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
+import { actionAuth } from '~/redux/reducers/authReducer';
 import { removeVietnameseTones } from '~/utils/language';
 
 function OTPVerification() {
+    const searchParams = useSearchParams();
+    const email = searchParams.get('_email'); // Lấy giá trị email từ query string
+
+    const dispatch = useDispatch()
     const length = 6 // số input nhập OTP
 
     const inputRefs = useRef([]); // mảng Ref Input nhập OTP
@@ -82,6 +90,13 @@ function OTPVerification() {
 
         if(otpString.length === 6) { // kiểm tra điều kiện đủ 6 ký tự trong OTP thì thực thi process xác thực
             setMessageError('')
+
+            let payload = {
+                _otp: otpString,
+                _email: email,
+            }
+            
+            dispatch(actionAuth.processVerifyOTP(payload))
         } else {
             setMessageError('OTP phải là 6 ký tự.')
         }

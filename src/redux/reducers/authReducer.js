@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from 'js-cookie';
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_ID } from "~/constants/cookie";
 
 const authSlice = createSlice({ 
     name: 'authentication',
@@ -9,11 +11,16 @@ const authSlice = createSlice({
         // process đăng ký -> loading
         isProcesSignUp: false,
         isProcesSignIn: false, // trạng thái đăng nhập -> loading
+        isProcessVerifyOTP: false, // trạng thais xử lý xác thực OTP 
+
+        processVerifyOTP: false, // tiến trình xác thực -> redirect đến trang xác thực
 
         // trạng thái quá trinhf đăng ký thành công hoặc thất bại 
         statusSignUp: false,
         // trạng thái quá trinh đăng nhap thành công hoặc thất bại 
         statusSignIn: false,
+        // trạng thái xác tực OTP thành công hoặc thất bại
+        statusVerifyOTP: false,
 
         // state sign-in
         formSignIn: {
@@ -110,16 +117,47 @@ const authSlice = createSlice({
             state.isProcesSignIn = true
         },
         singInAccountSuccess: (state, { payload }) => {
-            console.log(payload);
-            // set process về trạng thái cũ
-            state.isProcesSignIn = false
-            // set trạng thái đắng nhap thành công
-            state.statusSignIn = true
+            if (payload.access_token == "") {
+                state.processVerifyOTP = true
+            } else {
+                // set process về trạng thái cũ
+                state.isProcesSignIn = false
+                // set trạng thái đắng nhap thành công
+                state.statusSignIn = true
+
+                // set token vào cookies
+                Cookies.set(ACCESS_TOKEN, payload.access_token);
+                Cookies.set(REFRESH_TOKEN, payload.refresh_token);
+                Cookies.set(USER_ID, payload.user_id);
+
+                if (typeof window !== 'undefined') {
+                    window.location.reload();
+                }
+            }
         },
         singInAccountFailed: (state, _) => {
             state.isProcesSignIn = false
             // set trạng thái đắng nhap thất bại
             state.statusSignIn = false
+        },
+        // Xử lý xác thực OTP
+        processVerifyOTP: (state) => {
+            state.isProcessVerifyOTP = true
+        },
+        verifyOTPSucess: (state, { payload }) => {
+            // set token vào cookies
+            Cookies.set(ACCESS_TOKEN, payload.access_token);
+            Cookies.set(REFRESH_TOKEN, payload.refresh_token);
+            Cookies.set(USER_ID, payload.user_id);
+
+            if (typeof window !== 'undefined') {
+                window.location.reload();
+            }
+
+            state.isProcessVerifyOTP = false
+        },
+        verifyOTPFailed: (state, { payload }) => {
+            state.isProcessVerifyOTP = false
         },
     }
 })

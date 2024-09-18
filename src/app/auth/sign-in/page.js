@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FacebookLoginButton from '~/components/pages/SignIn/FacebookButton';
@@ -13,9 +14,10 @@ import { signInSchema } from '~/validations/authSchema';
 function SignInPage() {
     // khai báo dispatch sử dụng hook useDispatch để gửi các action lên Redux
     const dispatch = useDispatch()
+    const router = useRouter()
 
     // access vào store Redux lấy data 
-    const { formSignIn, isProcesSignIn, statusSignIn, errorSignIn } = useSelector(state => state.authState)
+    const { formSignIn, isProcesSignIn, statusSignIn, errorSignIn, processVerifyOTP } = useSelector(state => state.authState)
     const { email, password } = formSignIn
 
     useEffect(() => {
@@ -26,6 +28,12 @@ function SignInPage() {
             dispatch(actionAuth.setValueStatusSignIn(false))
         }
     }, [statusSignIn, dispatch])
+
+    useEffect(() => {
+        if(processVerifyOTP) {
+            router.push("/auth/otp-verification?_email=" + email)
+        }
+    }, [processVerifyOTP, router])
 
     // hàm kiểm tra dữ liệu form Sign Up truơc khi send request
     const validationDataFormSignIn = async () => {
