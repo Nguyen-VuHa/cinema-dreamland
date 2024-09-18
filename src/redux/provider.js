@@ -45,7 +45,7 @@ function ReduxProvider({children}) {
             <div className='absolute top-0 left-0 w-full h-full backdrop-blur-sm'>
             </div>
           </div>
-          <div className="flex w-full h-auto text-primary">
+          <div className="flex w-full h-auto text-primary px-5 lg:px-10">
             <SideBar />
             <div className='w-full md:ml-[30%] lg:ml-[25%] xl:ml-[20%] 2xl:ml-[17%]'>
               <Header />
