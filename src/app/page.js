@@ -1,6 +1,11 @@
+import MovieList from "~/components/pages/Movies/MovieList";
 
-export default function Home() {
+export default function Movies() {
     return (
-        <div>Home Page</div>
+        <>
+           <MovieList 
+           
+           />
+        </>
     );
 }

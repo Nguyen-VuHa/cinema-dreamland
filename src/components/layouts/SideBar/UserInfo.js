@@ -11,7 +11,7 @@ function UserInfo() {
                 {/* Image */}
                 <div className='w-[60px] h-[60px] flex-shrink-0'>
                     <Image
-                        className='w-100%' 
+                        className='w-full' 
                         alt='NO LOGO'
                         src="/logo.png"
                         priority
@@ -21,8 +21,8 @@ function UserInfo() {
                 </div>
                 {/* Fullname & Email */}
                 <div className='flex flex-col space-y-2 w-full-name-with text-white'>
-                    <span className='text-lg truncate w-100%'>Nguyễn Vũ Hạ</span>
-                    <span className='text-xs truncate w-100% text-input-place'>+84 38 831 8629</span>
+                    <span className='text-lg truncate w-full'>Nguyễn Vũ Hạ</span>
+                    <span className='text-xs truncate w-full text-input-place'>+84 38 831 8629</span>
                 </div>
             </div>
             {/* Balance */}

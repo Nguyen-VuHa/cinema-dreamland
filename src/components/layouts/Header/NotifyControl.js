@@ -29,7 +29,7 @@ function NotifyControl() {
     }, []);
 
     return (
-        <div className='relative'>
+        <div className='relative z-[100]'>
             <div 
                 ref={buttonRef}
                 className='cursor-pointer bg-layout-second shadow-sm shadow-primary transition-all 
