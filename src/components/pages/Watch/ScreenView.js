@@ -61,26 +61,6 @@ function ScreenView() {
                         // Kiểm tra khi video bắt đầu phát
                         playerRef.current.on('play', () => {
                             setIsLoading(false)
-                            // Kiểm tra xem video có đang muted không
-                            if (videoRef.current.muted) {
-                                console.log('Video is muted');
-                            } else {
-                                console.log('Video is not muted');
-                            }
-                        });
-                    
-                        // Kiểm tra khi video tạm dừng
-                        playerRef.current.on('pause', () => {
-                            console.log('Video is paused');
-                        });
-                    
-                        // Bạn có thể thêm lắng nghe sự kiện cho khi tắt hoặc bật tiếng
-                        playerRef.current.on('volumechange', () => {
-                            if (videoRef.current.muted) {
-                                console.log('Video is muted');
-                            } else {
-                                console.log('Video is not muted');
-                            }
                         });
                     });
                 } 
@@ -97,23 +77,8 @@ function ScreenView() {
 
     useLayoutEffect(() => { 
         handleViewVideo() 
-
     }, [])
-
-    useEffect(() => {
-        // Kiểm tra xem người dùng đã từng nhấn nút play trước đó chưa (lưu trong localStorage)
-        const hasPlayed = localStorage.getItem('hasPlayed');
-        
-        console.log(hasPlayed && videoRef.current);
-      
-        if (hasPlayed && videoRef.current) {
-            videoRef.current.muted = false
-            videoRef.current.play(); 
-            setIsFirts(true)
-            setIsLoading(false)
-        }
-    }, []);
-
+    
     useEffect(() => {
         if (videoRef.current && playerRef.current && isFirts) {
             videoRef.current.muted = false
@@ -127,7 +92,7 @@ function ScreenView() {
             <CardBlur className="p-2">
                 <div className='w-full relative rounded-md overflow-hidden space-y-3'>
                     {
-                        isLoading &&  <div className='z-[10] absolute w-full h-full top-0 left-0 bg-layout-primary'>
+                        isLoading &&  <div className='z-[4] absolute w-full h-full top-0 left-0 bg-layout-primary'>
                             <div className='flex flex-col justify-center items-center w-full h-full space-y-2'>
                                 <BarLoader color='#f9ab00'/>
                                 <span>Đang tải ...</span>
@@ -147,13 +112,12 @@ function ScreenView() {
                 </div>
                 {/* description */}
                 <div className='text-sm text-input-place'>
-                    Enjoy Your Day 🌻 Chill morning songs to start your day ~ English songs chill vibes playlist
+                    {`Enjoy Your Day 🌻 Chill morning songs to start your day ~ English songs chill vibes playlist \n
 
-                    Hello everyone! Welcome to Chill Melody  🌻
+                    Hello everyone! Welcome to Chill Melody  🌻 \r\n
                     TRACKLIST: 
                     0:00 I Wish You Were Mine - Loving Caliber
                     3:46 For Some Time - Daniel Gunnarsson
-                    9:47 I'll Get Over You - Loving Caliber
                     13:08 What Is It Like - Loving Caliber
                     16:11 Just Do It - Houses On The Hill
                     19:08 Pretty Little Liar - Candelion
@@ -171,13 +135,13 @@ function ScreenView() {
                     1:01:49 A Little Piece of You - River Sam
 
 
-                    🤩 You are looking for relaxing music for the new day?🎶🌞
-                    On this channel, we bring you vibrant and refreshing indie tunes to start each day in the most positive way. Enjoy the music broadcast in the morning, making you full of energy and spirit. Let's wake up with Chill Melody and start your day with attractive melodies and the freedom of music.
+                    🤩 You are looking for relaxing music for the new day?🎶🌞 
+                    On this channel, we bring you vibrant and refreshing indie tunes to start each day in the most positive way. Enjoy the music broadcast in the morning, making you full of energy and spirit. wake up with Chill Melody and start your day with attractive melodies and the freedom of music.
                     ► Help us get 1.000.000 subscribers:   
                     🌻𝐼 ℎ𝑜𝑝𝑒 𝑡ℎ𝑎𝑡 𝑚𝑦 𝑚𝑢𝑠𝑖𝑐 𝑤𝑖𝑙𝑙 ℎ𝑒𝑙𝑝 𝑦𝑜𝑢 𝑓𝑒𝑒𝑙 𝑝𝑒𝑎𝑐𝑒 𝑎𝑛𝑑 𝑟𝑒𝑙𝑎𝑥 𝑦𝑜𝑢𝑟 𝑚𝑖𝑛𝑑. 𝑇ℎ𝑎𝑛𝑘 𝑦𝑜𝑢 𝑣𝑒𝑟𝑦 𝑚𝑢𝑐ℎ
                     #chillmusic 
                     #morningmusic 
-                    #morningsongs
+                    #morningsongs`}
                 </div>
             </CardBlur>
         </div>

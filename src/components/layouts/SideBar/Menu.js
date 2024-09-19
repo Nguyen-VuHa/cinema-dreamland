@@ -6,13 +6,19 @@ import { PiMonitorPlayFill } from "react-icons/pi";
 import { SiThemoviedatabase } from "react-icons/si";
 import { GiTheater } from "react-icons/gi";
 import { usePathname, useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { configAction } from '~/redux/reducers/configReducer';
 
 function Menu() {
     const router = useRouter();
     const pathname = usePathname();
+
+    const dispatch = useDispatch()
   
     // Hàm kiểm tra menu active dựa trên pathname
     const isActive = (menuPath) => pathname === menuPath;
+
+    
     
     return (
         <div className='w-full h-auto flex flex-col space-y-1'>
@@ -22,6 +28,7 @@ function Menu() {
                 menuName="Movies"
                 onClick={() => {
                     router.push("/")
+                    dispatch(configAction.setIsMenuSideBar(false))
                 }}
             />
             <MenuItem 
@@ -30,6 +37,7 @@ function Menu() {
                 menuName="Phim chiếu rạp"
                 onClick={() => {
                     router.push("/movies")
+                    dispatch(configAction.setIsMenuSideBar(false))
                 }}
             />
             <MenuItem 
@@ -38,6 +46,7 @@ function Menu() {
                 menuName="Hệ thống rạp chiếu"
                 onClick={() => {
                     router.push("/cinemas")
+                    dispatch(configAction.setIsMenuSideBar(false))
                 }}
             />
             {/* <MenuItem 
