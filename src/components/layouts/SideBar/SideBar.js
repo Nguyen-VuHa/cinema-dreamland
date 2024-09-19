@@ -6,20 +6,21 @@ import Menu from './Menu';
 
 function SideBar() {
     return (
-        <div 
-            className='fixed top-0 left-0 w-[40%] md:w-[30%] lg:w-[25%] xl:w-[20%] 2xl:w-[17%] p-3 space-y-4'
-        >
+        <div className='fixed top-0 left-0 w-[40%] md:w-[30%] lg:w-[25%] xl:w-[20%] 2xl:w-[17%]'>
             {/* Logo */}
             <Logo />
-            
-            {/* Card User Info */}
-            <CardBlur className="p-4 select-none">
-                <UserInfo />
+            <div 
+                className='p-3 pt-0 space-y-4'
+            >
+                {/* Card User Info */}
+                <CardBlur className="p-4 select-none">
+                    <UserInfo />
 
-            </CardBlur>
+                </CardBlur>
 
-            {/* Menu */}
-            <Menu />
+                {/* Menu */}
+                <Menu />
+            </div>
         </div>
     );
 }

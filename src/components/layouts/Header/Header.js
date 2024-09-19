@@ -4,7 +4,7 @@ import Control from './Control';
 
 function Header() {
     return (
-        <div className='w-full flex justify-between items-center py-8'>
+        <div className='z-[10] backdrop-blur-lg sticky top-0 left-0 w-full flex justify-between items-center py-8'>
             {/* Search bar */}
             <div className='w-full'>
                 <SearchBar />

@@ -3,9 +3,9 @@ import React from 'react';
 
 function Logo() {
     return (
-        <a href='/' className='flex justify-center items-center space-x-2'>
+        <a href='/' className='flex justify-center items-center space-x-2 py-8'>
             <Image
-                className='pb-2 max-md:p-0 w-[70px]' 
+                className='max-md:p-0 w-[44px]' 
                 alt='NO LOGO'
                 src="/logo.png"
                 priority

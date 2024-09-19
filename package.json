@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4000",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,8 +14,10 @@
     "axios": "^1.7.2",
     "cookie": "^0.6.0",
     "dayjs": "^1.11.11",
+    "hls.js": "^1.5.15",
     "js-cookie": "^3.0.5",
     "next": "14.2.3",
+    "plyr": "^3.7.8",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",

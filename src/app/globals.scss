@@ -32,3 +32,34 @@ button {
   background: #888; /* Màu của thanh cuộn */
   border-radius: 6px; /* Bo tròn các góc */
 }
+
+/* Đảm bảo rằng Plyr thanh process bar full width trên mobile */
+@media only screen and (max-width: 768px) {
+  .plyr__progress__container {
+    bottom: 57%;
+    left: 0;
+    position: absolute;
+    width: 99% !important;
+  }
+}
+
+// custom color plyr video
+
+/* Thay đổi màu nút Play */
+.plyr__control--overlaid {
+  background-color: #f9ab00 !important;
+}
+
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded=true] {
+  background: #f9ab00 !important; 
+}
+
+.plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]::before {
+  background-color: #f9ab00 !important; 
+}
+
+.plyr--full-ui input[type=range] {
+  color: #f9ab00 !important;
+}

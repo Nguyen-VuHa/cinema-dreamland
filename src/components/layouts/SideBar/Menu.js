@@ -17,7 +17,7 @@ function Menu() {
     return (
         <div className='w-full h-auto flex flex-col space-y-1'>
             <MenuItem 
-                isActive={isActive("/")}
+                isActive={isActive("/") || isActive("/watch")}
                 icon={<PiMonitorPlayFill className='text-[25px]'/>}
                 menuName="Movies"
                 onClick={() => {
