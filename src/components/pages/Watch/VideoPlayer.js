@@ -3,7 +3,7 @@ import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { useEffect, useRef, useState } from 'react';
 
-const VideoPlayer = ({ videoSource, isLoadVideoError }) => {
+const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource }) => {
     const videoContainerRef = useRef(null);  // Ref cho container
     const playerRef = useRef(null);          // Ref cho Plyr instance
     const hlsRef = useRef(null);             // Ref cho Hls instance
@@ -78,7 +78,7 @@ const VideoPlayer = ({ videoSource, isLoadVideoError }) => {
                 ],
                 previewThumbnails: {
                     enabled: true, // Ban đầu tắt tải thumbnail
-                    src: `http://localhost:8080/md/image/17f4628fe7602a91478a478c7b2a753d.vtt`,
+                    src: thumbnailSource,
                 },
             });
 

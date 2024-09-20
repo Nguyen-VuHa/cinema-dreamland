@@ -23,6 +23,8 @@ function ScreenView() {
     const { movieDetail } = useSelector(state => state.mediaState)
 
     const [videoSource, setVideoSource] = useState('');
+    const [thumnailSource, setThumnailSource] = useState('');
+    
 
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadVideoError, setIsLoadVideoError] = useState(false);
@@ -46,9 +48,12 @@ function ScreenView() {
 
         if(res && res.length > 1) {
             const playlist = res.find(segment => segment.name.endsWith('.m3u8'));
-            const src = `http://localhost:8080${playlist.path}`;
+            const src = process.env.NEXT_PUBLIC_API_URL_DEV + playlist.path
+            const thumnailSource = process.env.NEXT_PUBLIC_API_URL_DEV + `/md/image/${movieDetail?.ID}.vtt`
 
             setVideoSource(src)
+            setThumnailSource(thumnailSource)
+
             setIsLoading(false)
         }
     }
@@ -72,6 +77,7 @@ function ScreenView() {
                     <VideoPlayer 
                         videoSource={videoSource}
                         isLoadVideoError={setIsLoadVideoError}
+                        thumbnailSource={thumnailSource}
                     />
                     <div className='text-lg font-semibold'>{movieDetail?.title}</div>
                 </div>
