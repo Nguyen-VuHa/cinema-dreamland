@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import RecommendItem from './RecommendItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionMedia } from '~/redux/reducers/mediaReducer';
+import { useRouter } from 'next/navigation';
 
 function Recommend() {
+    const router = useRouter()
     const dispatch = useDispatch()
     const { movieList, paginationMovieList } = useSelector(state => state.mediaState)
 
@@ -13,6 +15,11 @@ function Recommend() {
             dispatch(actionMedia.processFetchMovieList(paginationMovieList))
         }
     }, [movieList])
+
+    const handleRedirect = (movieID) => {
+        localStorage.setItem('hasPlayed', true);
+        router.push(`/watch?m=${movieID}`)
+    }
 
     return (
         <div
@@ -24,9 +31,9 @@ function Recommend() {
                     return <RecommendItem 
                         key={movie.ID || index}
                         data={movie}
-                        // onClick={() => {
-                        //     handleRedirect(movie.ID)
-                        // }}
+                        onClick={() => {
+                            handleRedirect(movie.ID)
+                        }}
                     />
                 })
             }

@@ -25,12 +25,13 @@ function MovieList() {
     useEffect(() => {
         const observer = new IntersectionObserver(
           (entries) => {
-            console.log(paginationMovieList.isLastPage , isFetchMediaMovieList);
             if (entries[0].isIntersecting && !paginationMovieList.isLastPage && !isFetchMediaMovieList) {
                 fetchMovieList(); // Gọi fetchData khi phần tử loading xuất hiện trong viewport
             }
           },
-          { threshold: 1 } // Phần tử phải hoàn toàn trong viewport mới trigger
+          { 
+            threshold: 0.1 
+          } // Phần tử phải hoàn toàn trong viewport mới trigger
         );
     
         if (observerRef.current) {

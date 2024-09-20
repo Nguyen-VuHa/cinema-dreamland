@@ -2,8 +2,9 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { actionMedia } from "../reducers/mediaReducer";
 import toastConstant from "~/constants/toastify";
 import { v4 as uuidV4 } from 'uuid';
+import { toastifyAction } from "../reducers/toastReducer";
 
-const { apiGetMediaMovieList } = require("~/apis/media");
+const { apiGetMediaMovieList, apiGetDetailMovie } = require("~/apis/media");
 
 
 function* sendFetchMovieListSaga(action) { 
@@ -31,6 +32,8 @@ function* sendFetchMovieListSaga(action) {
         }
 
     } catch (error) {
+        console.log(error);
+        
         yield put(toastifyAction.createToastMessage({
             uuid: uuidV4(),
             position: toastConstant.TOAST_TOP_RIGHT,
@@ -43,6 +46,38 @@ function* sendFetchMovieListSaga(action) {
     }
 }
 
+function* sendFetchDetailMovieSaga(action) {  
+    try {
+        const response = yield call(apiGetDetailMovie, action.payload);
+        
+        if (response && response.code === 200) {
+            yield put(actionMedia.fetchMovieDetailSuccess(response.data));
+        } else {
+            yield put(toastifyAction.createToastMessage({
+                uuid: uuidV4(),
+                position: toastConstant.TOAST_TOP_RIGHT,
+                toastText:  response?.message,
+                duration: 3500,
+                type: 'ERROR',
+            }));
+    
+            yield put(actionMedia.fetchMovieDetailFailed(response));
+        }
+
+    } catch (error) {
+        yield put(toastifyAction.createToastMessage({
+            uuid: uuidV4(),
+            position: toastConstant.TOAST_TOP_RIGHT,
+            toastText:  error?.message,
+            duration: 3500,
+            type: 'ERROR',
+        }));
+
+        yield put(actionMedia.fetchMovieDetailFailed(response));
+    }
+}
+
 export default function* mediaSaga() { 
     yield takeLatest(actionMedia.processFetchMovieList.type, sendFetchMovieListSaga);
+    yield takeLatest(actionMedia.processFetchMovieDetail.type, sendFetchDetailMovieSaga);
 }

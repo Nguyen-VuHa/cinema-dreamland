@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isFetchMediaMovieList: false,
+    isFetchMovieDetail: false,
+
+    isScreenView: true,
 
     paginationMovieList: {
         page: 1,
@@ -12,6 +15,7 @@ const initialState = {
         isLastPage: false,
     },
     movieList: [],
+    movieDetail: null,
 };
 
 export const mediaSlice = createSlice({ 
@@ -22,6 +26,9 @@ export const mediaSlice = createSlice({
         setValuePaginationMovieList: (state, { payload }) => {
             const { key, value } = payload;
             state.paginationMovieList[key] = value 
+        }, 
+        setIsScreenView: (state, { payload }) => {
+            state.isScreenView = payload 
         }, 
         processFetchMovieList: (state) => {
             state.isFetchMediaMovieList = true
@@ -41,7 +48,19 @@ export const mediaSlice = createSlice({
         fetchMovieListFailed: (state, { payload }) => {
 
             state.isFetchMediaMovieList = false
-        }
+        },
+        processFetchMovieDetail: (state) => {
+            state.isFetchMovieDetail = true
+        },
+        fetchMovieDetailSuccess: (state, { payload }) => { 
+            state.movieDetail = payload;
+            state.isFetchMovieDetail = false
+            state.isScreenView = true
+        },
+        fetchMovieDetailFailed: (state, { payload }) => {
+            state.isFetchMovieDetail = false
+            state.isScreenView = true
+        },
     },
     extraReducers: () => {},
 })
