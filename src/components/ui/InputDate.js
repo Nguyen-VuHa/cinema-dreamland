@@ -10,18 +10,18 @@ import Divider from './Divider';
 
 // Data months from Vietnamese
 const Months = [
-    { value: 1, name: "Thang 1" },
-    { value: 2, name: "Thang 2" },
-    { value: 3, name: "Thang 3" },
-    { value: 4, name: "Thang 4" },
-    { value: 5, name: "Thang 5" },
-    { value: 6, name: "Thang 6" },
-    { value: 7, name: "Thang 7" },
-    { value: 8, name: "Thang 8" },
-    { value: 9, name: "Thang 9" },
-    { value: 10, name: "Thang 10" },
-    { value: 11, name: "Thang 11" },
-    { value: 12, name: "Thang 12" }
+    { value: 1, name: "Tháng 1" },
+    { value: 2, name: "Tháng 2" },
+    { value: 3, name: "Tháng 3" },
+    { value: 4, name: "Tháng 4" },
+    { value: 5, name: "Tháng 5" },
+    { value: 6, name: "Tháng 6" },
+    { value: 7, name: "Tháng 7" },
+    { value: 8, name: "Tháng 8" },
+    { value: 9, name: "Tháng 9" },
+    { value: 10, name: "Tháng 10" },
+    { value: 11, name: "Tháng 11" },
+    { value: 12, name: "Tháng 12" }
 ]
 
 const maxYear = 2100

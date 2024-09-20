@@ -111,7 +111,7 @@ function ScreenView() {
                     <span>3 giờ trước</span>
                 </div>
                 {/* description */}
-                <div className='text-sm text-input-place'>
+                <div className='text-sm text-input-place whitespace-pre-line'>
                     {`Enjoy Your Day 🌻 Chill morning songs to start your day ~ English songs chill vibes playlist \n
 
                     Hello everyone! Welcome to Chill Melody  🌻 \r\n

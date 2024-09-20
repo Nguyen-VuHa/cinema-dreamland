@@ -15,7 +15,7 @@ function Header() {
             {/* Button Menu */}
             <div className='flex w-full'>
                 <Button 
-                    className="w-fit hidden mr-2 max-md:block"
+                    className="!w-fit hidden mr-2 max-md:block"
                     onClick={() => {
                         dispatch(configAction.setIsMenuSideBar(!isMenuSideBar))
                     }}
