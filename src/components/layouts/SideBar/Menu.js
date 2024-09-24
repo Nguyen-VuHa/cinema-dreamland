@@ -31,7 +31,7 @@ function Menu() {
                     dispatch(configAction.setIsMenuSideBar(false))
                 }}
             />
-            <MenuItem 
+            {/* <MenuItem 
                 isActive={isActive("/movies")}
                 icon={<SiThemoviedatabase className='text-[25px]'/>}
                 menuName="Phim chiếu rạp"
@@ -48,10 +48,6 @@ function Menu() {
                     router.push("/cinemas")
                     dispatch(configAction.setIsMenuSideBar(false))
                 }}
-            />
-            {/* <MenuItem 
-                icon={<PiMonitorPlayFill className='text-[25px]'/>}
-                menuName="Dịch vụ"
             /> */}
         </div>
     );

@@ -1,10 +1,28 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import Button from '~/components/ui/Button';
 import { FaUserEdit } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { USER_ID } from '~/constants/cookie';
+import { actionUser } from '~/redux/reducers/userReducer';
+import { formatCurrency, formatPhoneNumber } from '~/utils/format';
+import { randomResolution } from '~/utils/random';
 
 function UserInfo() {
+    const dispatch = useDispatch()
+    const { isFetchDetailUser, userDetail } = useSelector(state => state.userState)
+
+    useEffect(() => {
+        let userID = Cookies.get(USER_ID)
+
+        dispatch(actionUser.processFetchUserDetail({
+            _user_id: userID
+        }))
+
+    }, [dispatch])
+
     return (
         <>
             <div className='w-full flex items-center space-x-2'>
@@ -21,17 +39,17 @@ function UserInfo() {
                 </div>
                 {/* Fullname & Email */}
                 <div className='flex flex-col space-y-2 w-full-name-with text-white'>
-                    <span className='text-lg truncate w-full'>Nguyễn Vũ Hạ</span>
-                    <span className='text-xs truncate w-full text-input-place'>+84 38 831 8629</span>
+                    <span className='text-lg truncate w-full'>{ userDetail?.full_name }</span>
+                    <span className='text-xs truncate w-full text-input-place'>{ formatPhoneNumber(userDetail?.phone_number)}</span>
                 </div>
             </div>
             {/* Balance */}
             <div className='mt-2 flex justify-between items-end'>
                 <div>
-                    <span className='text-input-place'>Balance</span>
+                    <span className='text-input-place text-xs'>Số dư hiện tại</span>
                     <div className='flex items-center space-x-2'>
                         <FaMoneyCheckDollar className='text-[25px] text-success'/>
-                        <span className='text-success'>$1,000.00</span>
+                        <span className='text-success'>{formatCurrency(randomResolution())}</span>
                     </div>
                 </div>
                 <Button className="!w-fit h-full">

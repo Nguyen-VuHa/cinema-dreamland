@@ -150,11 +150,12 @@ const authSlice = createSlice({
             Cookies.set(REFRESH_TOKEN, payload.refresh_token);
             Cookies.set(USER_ID, payload.user_id);
 
-            if (typeof window !== 'undefined') {
-                window.location.reload();
-            }
-
             state.isProcessVerifyOTP = false
+
+
+            if (typeof window !== 'undefined') {
+                window.location.replace("/");
+            }
         },
         verifyOTPFailed: (state, { payload }) => {
             state.isProcessVerifyOTP = false

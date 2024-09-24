@@ -45,30 +45,30 @@ function ReduxProvider({children}) {
       }
   }, []);
 
-  // useEffect(() => {
-  //     const handleBeforeUnload = () => {
-  //         // Hủy bỏ service worker trước khi đóng tab
-  //         if ('serviceWorker' in navigator) {
-  //             navigator.serviceWorker.getRegistration().then((registration) => {
-  //                 if (registration) {
-  //                     registration.unregister().then((success) => {
-  //                         if (success) {
-  //                             console.log('Service Worker unregistered successfully before unload.');
-  //                         }
-  //                     });
-  //                 }
-  //             });
-  //         }
-  //     };
+  useEffect(() => {
+      const handleBeforeUnload = () => {
+          // Hủy bỏ service worker trước khi đóng tab
+          if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistration().then((registration) => {
+                  if (registration) {
+                      registration.unregister().then((success) => {
+                          if (success) {
+                              console.log('Service Worker unregistered successfully before unload.');
+                          }
+                      });
+                  }
+              });
+          }
+      };
 
-  //     // Lắng nghe sự kiện 'beforeunload'
-  //     window.addEventListener('beforeunload', handleBeforeUnload);
+      // Lắng nghe sự kiện 'beforeunload'
+      window.addEventListener('beforeunload', handleBeforeUnload);
 
-  //     // Cleanup khi component bị hủy bỏ (gỡ bỏ listener)
-  //     return () => {
-  //         window.removeEventListener('beforeunload', handleBeforeUnload);
-  //     };
-  // }, []);
+      // Cleanup khi component bị hủy bỏ (gỡ bỏ listener)
+      return () => {
+          window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+  }, []);
 
   return (
     <Provider store={store}>

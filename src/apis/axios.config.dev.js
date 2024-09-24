@@ -1,4 +1,6 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
+import { ACCESS_TOKEN } from '~/constants/cookie'
 
 let baseURL = process.env.NEXT_PUBLIC_API_URL_DEV
 
@@ -9,10 +11,10 @@ const axiosClient = axios.create({
 
 // config axios request API getway
 axiosClient.interceptors.request.use(async (config) => {
-    // if (Cookies.get(ACCESS_TOKEN)) {
-    //     config.withCredentials = true
-    //     config.headers.Authorization = `Bearer ${Cookies.get(ACCESS_TOKEN)}`;
-    // }
+    if (Cookies.get(ACCESS_TOKEN)) {
+        config.withCredentials = true
+        config.headers.Authorization = `Bearer ${Cookies.get(ACCESS_TOKEN)}`;
+    }
 
     return config;
 }, (error) => {

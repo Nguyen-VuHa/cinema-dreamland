@@ -16,9 +16,3 @@ export const apiGetDetailMovie = (payload) => {
 
     return axiosClient.get(apiPath)
 }
-
-export const apiGetMediaVideo = (payload) => { 
-    const apiPath = `/api/media/video/${payload}` 
-
-    return axiosClient.get(apiPath)
-}

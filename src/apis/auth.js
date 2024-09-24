@@ -21,3 +21,11 @@ export const apiVerifyOTP = (payload) => {
 
     return axiosClient.get(apiPath, payload)
 }
+
+export const apiRefreshToken = (payload) => {
+    let params = objectToQueryParams(payload)
+
+    const apiPath = '/api/auth/refresh?' + params
+
+    return axiosClient.post(apiPath, payload)
+}

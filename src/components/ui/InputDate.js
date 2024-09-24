@@ -217,7 +217,7 @@ function InputDate({ placeholder, classNameInput, value, onChange, errMessage}) 
                             key={day}
                             className='select-none flex justify-center items-center 
                                 border-2 rounded border-hover
-                                p-1 text-xs text-primary
+                                p-1 text-[.6rem] text-primary
                             '
                         >
                             {day}

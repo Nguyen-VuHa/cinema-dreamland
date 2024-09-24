@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BarLoader } from 'react-spinners';
 import { v4 as uuidV4 } from 'uuid';
-import { apiGetMediaVideo } from '~/apis/media';
 import CardBlur from '~/components/ui/CardBlur';
 import toastConstant from '~/constants/toastify';
 import { toastifyAction } from '~/redux/reducers/toastReducer';
@@ -44,17 +43,16 @@ function ScreenView() {
     }, [isLoadVideoError, isLoading])
 
     const handleViewVideo = async () => { 
-        const res = await apiGetMediaVideo(movieDetail?.ID) 
-
-        if(res && res.length > 1) {
-            const playlist = res.find(segment => segment.name.endsWith('.m3u8'));
-            const src = process.env.NEXT_PUBLIC_API_URL_DEV + playlist.path
+        if(movieDetail) {
+            const src  = process.env.NEXT_PUBLIC_API_URL_DEV + `/md/video/${movieDetail?.ID}.m3u8`
             const thumnailSource = process.env.NEXT_PUBLIC_API_URL_DEV + `/md/image/${movieDetail?.ID}.vtt`
-
+    
             setVideoSource(src)
             setThumnailSource(thumnailSource)
-
-            setIsLoading(false)
+    
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 500);
         }
     }
 
@@ -65,9 +63,9 @@ function ScreenView() {
     return (
         <div className='space-y-2'>
             <CardBlur className="p-2">
-                <div className='w-full relative rounded-md overflow-hidden space-y-3'>
+                <div className='w-full h-full relative rounded-md overflow-hidden min-h-[300px] space-y-3'>
                     {
-                        isLoading &&  <div className='z-[4] absolute w-full h-full top-0 left-0 bg-layout-primary'>
+                        isLoading && <div className='z-[4] absolute w-full min-h-[300px] h-full top-0 left-0 bg-layout-primary'>
                             <div className='flex flex-col justify-center items-center w-full h-full space-y-2'>
                                 <BarLoader color='#f9ab00'/>
                                 <span>Đang tải ...</span>
@@ -78,6 +76,7 @@ function ScreenView() {
                         videoSource={videoSource}
                         isLoadVideoError={setIsLoadVideoError}
                         thumbnailSource={thumnailSource}
+                        setIsLoading={setIsLoading}
                     />
                     <div className='text-lg font-semibold'>{movieDetail?.title}</div>
                 </div>

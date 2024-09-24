@@ -1,12 +1,15 @@
 import Hls from 'hls.js';
+import Cookies from 'js-cookie';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { useEffect, useRef, useState } from 'react';
+import { ACCESS_TOKEN } from '~/constants/cookie';
 
-const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource }) => {
+const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoading }) => {
     const videoContainerRef = useRef(null);  // Ref cho container
     const playerRef = useRef(null);          // Ref cho Plyr instance
     const hlsRef = useRef(null);             // Ref cho Hls instance
+
     const [videoElement, setVideoElement] = useState(null); // Trạng thái cho video element
 
     useEffect(() => {
@@ -29,12 +32,94 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource }) => {
             }
 
             // Tạo Hls instance mới và load video
-            const hls = new Hls();
+            const hls = new Hls({
+                maxBufferLength: 30, // Giới hạn tối đa buffer 30 giây
+                maxMaxBufferLength: 60, // Giới hạn buffer lớn nhất là 60 giây
+                maxBufferHole: 0.5,
+                maxBufferSize: 60 * 1000 * 1000, // Giới hạn buffer ở mức 60 MB (tương đương 1 phút video HD)
+            });
+
+            let accessToken = Cookies.get(ACCESS_TOKEN)
+
+            if (accessToken) {
+                hls.config.xhrSetup = function(xhr, url) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken); // Thêm token vào header
+                };
+            }
+
+            // Lưu Hls instance vào ref để hủy sau này
+            hlsRef.current = hls;
             hls.loadSource(videoSource);
             hls.attachMedia(videoElement);
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                const availableQualities = hls.levels.map(level => level.height);
+                // Thêm 'Auto' với value = 0 vào đầu danh sách các tùy chọn chất lượng
+                availableQualities.unshift(0);
+
+                // Khởi tạo Plyr player mới
+                const player = new Plyr(videoElement, {
+                    controls: [
+                        'play-large', // The large play button in the center
+                        'restart', // Restart playback
+                        'rewind', // Rewind by the seek time (default 10 seconds)
+                        'play', // Play/pause playback
+                        'fast-forward', // Fast forward by the seek time (default 10 seconds)
+                        'progress', // The progress bar and scrubber for playback and buffering
+                        'current-time', // The current time of playback
+                        'duration', // The full duration of the media
+                        'mute', // Toggle mute
+                        'volume', // Volume control
+                        'captions', // Toggle captions
+                        'settings', // Settings menu
+                        'pip', // Picture-in-picture (currently Safari only)
+                        'airplay', // Airplay (currently Safari only)
+                        'fullscreen', // Toggle fullscreen
+                    ],
+                    previewThumbnails: {
+                        enabled: true, // Ban đầu tắt tải thumbnail
+                        src: thumbnailSource,
+                    },
+                    settings: ['quality', 'speed'], // Bật tùy chọn chất lượng (quality)
+                    quality: {
+                        default: 0, //Default - AUTO
+                        options: availableQualities, // Các tùy chọn chất lượng video (auto, 720p, 1080p)
+                        forced: true,
+                        onChange: (newQuality) => {
+                            if (newQuality === 0) {
+                                hls.currentLevel = -1; //Enable AUTO quality if option.value = 0
+                            } else {
+                                hls.levels.forEach((level, levelIndex) => {
+                                    if (level.height === newQuality) {
+                                        hls.currentLevel = levelIndex;
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    events: ['progress'], // Đăng ký lắng nghe sự kiện 'progress'
+                    i18n: {
+                        reset: 'Đặt lại',
+                        quality: 'Chất lượng',
+                        speed: 'Tốc độ',
+                        qualityLabel: {
+                            0: 'Auto',
+                            1080: '1080p',
+                            720: '720p',
+                            480: '480p',
+                        },
+                    },
+                });
+
+                // Lưu Plyr instance vào ref để hủy sau này
+                playerRef.current = player;
+
                 videoElement.play(); // Play video sau khi load
+
+                // Lắng nghe và ngăn chặn cập nhật tự động của buffer
+                videoContainerRef.current.addEventListener('progress', (event) => {
+                    event.stopImmediatePropagation();  // Ngăn chặn sự kiện progress được xử lý bởi Plyr
+                }, true);  
             });
 
             // Bắt sự kiện lỗi khi không thể load video
@@ -53,37 +138,22 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource }) => {
                             break;
                     }
                 }
-             });
-            // Lưu Hls instance vào ref để hủy sau này
-            hlsRef.current = hls;
-
-            // Khởi tạo Plyr player mới
-            const player = new Plyr(videoElement, {
-                controls: [
-                    'play-large', // The large play button in the center
-                    'restart', // Restart playback
-                    'rewind', // Rewind by the seek time (default 10 seconds)
-                    'play', // Play/pause playback
-                    'fast-forward', // Fast forward by the seek time (default 10 seconds)
-                    'progress', // The progress bar and scrubber for playback and buffering
-                    'current-time', // The current time of playback
-                    'duration', // The full duration of the media
-                    'mute', // Toggle mute
-                    'volume', // Volume control
-                    'captions', // Toggle captions
-                    'settings', // Settings menu
-                    'pip', // Picture-in-picture (currently Safari only)
-                    'airplay', // Airplay (currently Safari only)
-                    'fullscreen', // Toggle fullscreen
-                ],
-                previewThumbnails: {
-                    enabled: true, // Ban đầu tắt tải thumbnail
-                    src: thumbnailSource,
-                },
             });
 
-            // Lưu Plyr instance vào ref để hủy sau này
-            playerRef.current = player;
+            hls.on(Hls.Events.FRAG_LOADED, (event, data) => {
+                if(hlsRef.current.currentLevel >= 0) {
+                    const totalExpected = hlsRef.current.levels[hlsRef.current.currentLevel].details.totalduration
+                    const currentDuration = videoElement.buffered.length > 0 ? videoElement.buffered.end(videoElement.buffered.length - 1) : 0;
+                    const preloadPercent = (currentDuration / totalExpected) * 100;
+                    let progress = playerRef.current.elements.progress
+
+                    if (preloadPercent < 100) {
+                        progress.querySelector(".plyr__progress__buffer").value = preloadPercent
+                    } else {
+                        progress.querySelector(".plyr__progress__buffer").value = 100
+                    }
+                }
+            });
         };
 
         if (videoElement) {
@@ -118,17 +188,19 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource }) => {
     };
 
     // Gọi reset video element khi videoSource thay đổi
-        useEffect(() => {
+    useEffect(() => {
         if (videoSource) {
-        resetVideoElement(); // Tạo lại video element mỗi khi đổi video
+            resetVideoElement(); // Tạo lại video element mỗi khi đổi video
         }
     }, [videoSource]);
 
   return (
     <div>
-      {videoSource ? (
-        <div ref={videoContainerRef} />
-      ) : <></> }
+        {
+            videoSource ? (
+                <div ref={videoContainerRef} />
+            ) : <></> 
+        }
     </div>
   );
 };

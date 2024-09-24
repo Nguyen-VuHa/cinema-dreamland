@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
 import { actionAuth } from '~/redux/reducers/authReducer';
@@ -15,6 +15,7 @@ function OTPVerificationPage() {
     const email = searchParams.get('_email')
     
     const dispatch = useDispatch()
+    const { isProcessVerifyOTP } = useSelector(state => state.authState) 
     const length = 6 // số input nhập OTP
 
     const inputRefs = useRef([]); // mảng Ref Input nhập OTP
@@ -149,6 +150,7 @@ function OTPVerificationPage() {
                     onClick={() => {
                         handleSubmitConfirmOTP()
                     }}
+                    loading={isProcessVerifyOTP}
                 >
                     Xác Thực OTP
                 </Button>

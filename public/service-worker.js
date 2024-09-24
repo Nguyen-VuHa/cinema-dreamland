@@ -1,5 +1,8 @@
 const CACHE_NAME = 'watch-cache-v1';
 
+// const urlCaching = `http://192.168.1.121/md/image/`
+const urlCaching = `https://backend.hanguyen.online/md/image/`
+
 self.addEventListener('install', (event) => {
     // Kích hoạt service worker nhưng không cache gì lúc cài đặt
     console.log('Service worker installed');
@@ -9,8 +12,9 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
     const requestUrl = new URL(event.request.url);
 
-    // Kiểm tra nếu URL bắt đầu với 'http://localhost:8080/md/image/'
-    if (requestUrl.href.startsWith('http://localhost:8080/md/image/')) {
+    // Kiểm tra nếu URL bắt đầu với url
+
+    if (requestUrl.href.startsWith(urlCaching)) {
         event.respondWith(
             caches.match(event.request).then((response) => {
                 // Nếu ảnh đã có trong cache, trả về từ cache

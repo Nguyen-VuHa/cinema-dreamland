@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['192.168.1.121'], // Add your image host here
+        // domains: ['backend.hanguyen.online'], // Add your image host here
+        domains: ['localhost'], // Add your image host here
     },
 };
 
