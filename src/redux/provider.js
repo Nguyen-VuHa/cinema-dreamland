@@ -16,7 +16,7 @@ function ReduxProvider({children}) {
   const pathname = usePathname();
 
   // Kiểm tra nếu đang ở trang đăng nhập hoặc đăng ký
-  const noLayoutPages = ['/auth/sign-in', '/auth/sign-up', '/auth/otp-verification'];
+  const noLayoutPages = ['/auth/sign-in', '/auth/sign-up', '/auth/otp-verification', '/login/success'];
 
   const isAuthPage = noLayoutPages.includes(pathname);
 

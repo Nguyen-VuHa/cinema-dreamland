@@ -32,8 +32,6 @@ function* sendFetchMovieListSaga(action) {
         }
 
     } catch (error) {
-        console.log(error);
-        
         yield put(toastifyAction.createToastMessage({
             uuid: uuidV4(),
             position: toastConstant.TOAST_TOP_RIGHT,
@@ -42,7 +40,7 @@ function* sendFetchMovieListSaga(action) {
             type: 'ERROR',
         }));
 
-        yield put(actionMedia.fetchMovieListFailed(response));
+        yield put(actionMedia.fetchMovieListFailed(error));
     }
 }
 
@@ -72,8 +70,8 @@ function* sendFetchDetailMovieSaga(action) {
             duration: 3500,
             type: 'ERROR',
         }));
-
-        yield put(actionMedia.fetchMovieDetailFailed(response));
+        
+        yield put(actionMedia.fetchMovieDetailFailed(error));
     }
 }
 

@@ -14,6 +14,12 @@ export const apiSignInAccount = (payload) => {
     return axiosClient.post(apiPath, payload)
 }
 
+export const apiSignInWithFacebook = () => {
+    const apiPath = '/api/auth/facebook'
+
+    return axiosClient.get(apiPath)
+}
+
 export const apiVerifyOTP = (payload) => {
     let params = objectToQueryParams(payload)
     
@@ -27,5 +33,5 @@ export const apiRefreshToken = (payload) => {
 
     const apiPath = '/api/auth/refresh?' + params
 
-    return axiosClient.post(apiPath, payload)
+    return axiosClient.get(apiPath)
 }

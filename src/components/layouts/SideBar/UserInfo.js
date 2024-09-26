@@ -12,7 +12,7 @@ import { randomResolution } from '~/utils/random';
 
 function UserInfo() {
     const dispatch = useDispatch()
-    const { isFetchDetailUser, userDetail } = useSelector(state => state.userState)
+    const { userDetail } = useSelector(state => state.userState)
 
     useEffect(() => {
         let userID = Cookies.get(USER_ID)
@@ -22,7 +22,7 @@ function UserInfo() {
         }))
 
     }, [dispatch])
-
+    
     return (
         <>
             <div className='w-full flex items-center space-x-2'>
@@ -40,7 +40,7 @@ function UserInfo() {
                 {/* Fullname & Email */}
                 <div className='flex flex-col space-y-2 w-full-name-with text-white'>
                     <span className='text-lg truncate w-full'>{ userDetail?.full_name }</span>
-                    <span className='text-xs truncate w-full text-input-place'>{ formatPhoneNumber(userDetail?.phone_number)}</span>
+                    <span className='text-xs truncate w-full text-input-place'>{ formatPhoneNumber(userDetail?.phone_number) }</span>
                 </div>
             </div>
             {/* Balance */}

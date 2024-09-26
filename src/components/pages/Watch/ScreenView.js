@@ -13,13 +13,21 @@ import { toastifyAction } from '~/redux/reducers/toastReducer';
 import { formatViewCount } from '~/utils/format';
 import { getRandomNumber } from '~/utils/random';
 import VideoPlayer from './VideoPlayer';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Description from './Description';
 dayjs.locale('vi');
 // Cài đặt plugin relativeTime
 dayjs.extend(relativeTime);
 
 function ScreenView() {
+    const searchParams = useSearchParams();
+    // Lấy giá trị của query parameter 'm'
+    const id = searchParams.get('m');
+
+    const router = useRouter()
+
     const dispatch = useDispatch()
-    const { movieDetail } = useSelector(state => state.mediaState)
+    const { movieDetail, movieList } = useSelector(state => state.mediaState)
 
     const [videoSource, setVideoSource] = useState('');
     const [thumnailSource, setThumnailSource] = useState('');
@@ -27,10 +35,12 @@ function ScreenView() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadVideoError, setIsLoadVideoError] = useState(false);
+    const [videoEnded, setVideoEnded] = useState(false);
 
     useEffect(() => {
         if(isLoadVideoError) {
             setIsLoading(true)
+
             dispatch(toastifyAction.createToastMessage({
                 uuid: uuidV4(),
                 position: toastConstant.TOAST_TOP_RIGHT,
@@ -38,14 +48,13 @@ function ScreenView() {
                 duration: 3500,
                 type: 'WARN',
             }))
-            setIsLoadVideoError(false)
         }
     }, [isLoadVideoError, isLoading])
 
     const handleViewVideo = async () => { 
         if(movieDetail) {
-            const src  = process.env.NEXT_PUBLIC_API_URL_DEV + `/md/video/${movieDetail?.ID}.m3u8`
-            const thumnailSource = process.env.NEXT_PUBLIC_API_URL_DEV + `/md/image/${movieDetail?.ID}.vtt`
+            const src  = process.env.NEXT_PUBLIC_API_URL + `/md/video/${movieDetail?.ID}.m3u8`
+            const thumnailSource = process.env.NEXT_PUBLIC_API_URL + `/md/image/${movieDetail?.ID}.vtt`
     
             setVideoSource(src)
             setThumnailSource(thumnailSource)
@@ -57,8 +66,27 @@ function ScreenView() {
     }
 
     useEffect(() => {
+        setIsLoading(true)
         handleViewVideo()
     }, [movieDetail])
+
+    useEffect(() => {
+        if(videoEnded) {    
+            setVideoEnded(false)
+
+            if (movieList && !(movieList.length > 0))
+                return 
+
+            let movieClean = movieList.filter(movie => movie.ID != id)
+
+            if (!(movieClean.length > 0))
+                return
+
+            const randomIndex = Math.floor(Math.random() * movieClean.length);
+            let item = movieClean[randomIndex]
+            router.push(`/watch?m=${item.ID}`)
+        }
+    }, [videoEnded])
 
     return (
         <div className='space-y-2'>
@@ -77,6 +105,7 @@ function ScreenView() {
                         isLoadVideoError={setIsLoadVideoError}
                         thumbnailSource={thumnailSource}
                         setIsLoading={setIsLoading}
+                        setVideoEnded={setVideoEnded}
                     />
                     <div className='text-lg font-semibold'>{movieDetail?.title}</div>
                 </div>
@@ -90,7 +119,9 @@ function ScreenView() {
                 </div>
                 {/* description */}
                 <div className='text-sm text-input-place whitespace-pre-line'>
-                    {movieDetail?.description}
+                    <Description
+                        description={movieDetail?.description} 
+                    />
                 </div>
             </CardBlur>
         </div>

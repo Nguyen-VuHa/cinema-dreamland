@@ -58,14 +58,14 @@ function SignInPage() {
         event.preventDefault();
         let validate = await validationDataFormSignIn() 
 
-        if(validate) {
+        if(validate && !isProcesSignIn) {
             dispatch(actionAuth.processSignIn(formSignIn))
         }
     }
     
 
     return (
-        <form className='w-full space-y-3'>
+        <form className='w-full space-y-3' onSubmit={(e) => handleSubmitSignIn(e)}>
             <InputEmail 
                 className='w-full'
                 placeholder="Email"

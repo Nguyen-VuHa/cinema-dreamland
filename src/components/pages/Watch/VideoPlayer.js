@@ -5,8 +5,9 @@ import 'plyr/dist/plyr.css';
 import { useEffect, useRef, useState } from 'react';
 import { ACCESS_TOKEN } from '~/constants/cookie';
 
-const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoading }) => {
+const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoading, setVideoEnded }) => {
     const videoContainerRef = useRef(null);  // Ref cho container
+
     const playerRef = useRef(null);          // Ref cho Plyr instance
     const hlsRef = useRef(null);             // Ref cho Hls instance
 
@@ -120,6 +121,15 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoad
                 videoContainerRef.current.addEventListener('progress', (event) => {
                     event.stopImmediatePropagation();  // Ngăn chặn sự kiện progress được xử lý bởi Plyr
                 }, true);  
+
+                // Lắng nghe sự kiện 'ended' từ thẻ video HTML5
+                videoElement.addEventListener('ended', function() {
+                    setVideoEnded(true)
+                });
+            });
+
+            hls.on(Hls.Events.BUFFER_APPENDING, function() {
+                setIsLoading(false)
             });
 
             // Bắt sự kiện lỗi khi không thể load video
@@ -143,7 +153,7 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoad
             hls.on(Hls.Events.FRAG_LOADED, (event, data) => {
                 if(hlsRef.current.currentLevel >= 0) {
                     const totalExpected = hlsRef.current.levels[hlsRef.current.currentLevel].details.totalduration
-                    const currentDuration = videoElement.buffered.length > 0 ? videoElement.buffered.end(videoElement.buffered.length - 1) : 0;
+                    const currentDuration = videoElement?.buffered?.length > 0 ? videoElement.buffered.end(videoElement?.buffered?.length - 1) : 0;
                     const preloadPercent = (currentDuration / totalExpected) * 100;
                     let progress = playerRef.current.elements.progress
 

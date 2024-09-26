@@ -1,5 +1,5 @@
 import { objectToQueryParams } from "~/utils/params"
-import axiosClient from "./axios.config.dev"
+import axiosClient from "./axios.config"
 
 export const apiGetMediaMovieList = (payload) => {
     let params = objectToQueryParams(payload)

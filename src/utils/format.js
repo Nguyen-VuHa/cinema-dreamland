@@ -12,7 +12,7 @@ export function formatViewCount(number) {
 
 export function formatPhoneNumber(phoneNumber) {
   if (!phoneNumber) {
-    return "Số điện thoại không hợp lệ"; // Hoặc thông báo lỗi tùy chọn
+    return "+84 ~"; // Hoặc thông báo lỗi tùy chọn
   }
   // Thêm mã quốc gia +84 vào đầu số
   const countryCode = "+84";

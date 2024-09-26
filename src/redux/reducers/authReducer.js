@@ -11,6 +11,8 @@ const authSlice = createSlice({
         // process đăng ký -> loading
         isProcesSignUp: false,
         isProcesSignIn: false, // trạng thái đăng nhập -> loading
+        isProcessSignInWithFacebook: false,
+
         isProcessVerifyOTP: false, // trạng thais xử lý xác thực OTP 
 
         processVerifyOTP: false, // tiến trình xác thực -> redirect đến trang xác thực
@@ -159,6 +161,21 @@ const authSlice = createSlice({
         },
         verifyOTPFailed: (state, { payload }) => {
             state.isProcessVerifyOTP = false
+        },
+        // xử lý đăng nhập bằng facebook
+        processSignInWithFacebook: (state) => {
+            state.isProcessSignInWithFacebook = true
+        },
+        signInWithFacebookSuccess: (state, { payload }) => {
+            state.isProcessSignInWithFacebook = false
+
+            const currentUrl = window.location.href;
+            // Thay thế trang hiện tại bằng trang xác thực
+            window.history.replaceState({ previousUrl: currentUrl }, '', currentUrl);
+            window.location.href = payload;
+        },
+        signInWithFacebookFailed: (state, { payload }) => {
+            state.isProcessSignInWithFacebook = false
         },
     }
 })

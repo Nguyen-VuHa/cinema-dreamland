@@ -34,19 +34,20 @@ export const mediaSlice = createSlice({
             state.isFetchMediaMovieList = true
         },
         fetchMovieListSuccess: (state, { payload }) => {
-            return {
-                ...state,
-                isFetchMediaMovieList: false,
-                paginationMovieList: {
-                    ...state.paginationMovieList,
-                    isLastPage: payload.isLastPage,
-                    totalRows: payload.totalRows
-                },
-                movieList: [...state.movieList, ...payload.data]
+            if (payload.data && payload.data.length > 0) {
+                return {
+                    ...state,
+                    isFetchMediaMovieList: false,
+                    paginationMovieList: {
+                        ...state.paginationMovieList,
+                        isLastPage: payload.isLastPage,
+                        totalRows: payload.totalRows
+                    },
+                    movieList: [...state.movieList, ...payload.data]
+                }
             }
         },
         fetchMovieListFailed: (state, { payload }) => {
-
             state.isFetchMediaMovieList = false
         },
         processFetchMovieDetail: (state) => {
