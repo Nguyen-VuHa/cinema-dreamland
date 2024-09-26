@@ -97,6 +97,7 @@ function clearAllCookies() {
     Cookies.remove(ACCESS_TOKEN)
     Cookies.remove(REFRESH_TOKEN)
     Cookies.remove(USER_ID)
+    Cookies.remove(LOGIN_METHOD)
 
     window.location.reload()
 }

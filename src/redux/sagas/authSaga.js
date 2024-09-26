@@ -1,7 +1,7 @@
 
 
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { apiSignInAccount, apiSignInWithFacebook, apiSignUpAccount, apiVerifyOTP } from '~/apis/auth';
+import { apiSignInAccount, apiSignInWithFacebook, apiSignInWithGoogle, apiSignUpAccount, apiVerifyOTP } from '~/apis/auth';
 import { actionAuth } from '~/redux/reducers/authReducer';
 import { toastifyAction } from '../reducers/toastReducer';
 import { v4 as uuidV4 } from 'uuid';
@@ -139,9 +139,42 @@ function* sendSignInWithFacebookSaga() {
     }
 }
 
+function* sendSignInWithGoogleSaga() {  
+    try {
+        const response = yield call(apiSignInWithGoogle);
+
+        if (response) {
+            yield put(actionAuth.signInWithGoogleSuccess(response));
+        } else {
+            // push toastify show message error
+            yield put(toastifyAction.createToastMessage({
+                uuid: uuidV4(),
+                position: toastConstant.TOAST_TOP_RIGHT,
+                toastText:  response?.message,
+                duration: 3500,
+                type: 'ERROR',
+            }));
+
+            yield put(actionAuth.signInWithGoogleFailed(response));
+        }
+    } catch (error) {
+        // push toastify show message error
+        yield put(toastifyAction.createToastMessage({
+            uuid: uuidV4(),
+            position: toastConstant.TOAST_TOP_RIGHT,
+            toastText:  error?.message,
+            duration: 3500,
+            type: 'ERROR',
+        }));
+        
+        yield put(actionAuth.signInWithGoogleFailed(error));
+    }
+}
+
 export default function* authSaga() {
     yield takeLatest(actionAuth.processSignUpAccount.type, sendSignUpAccountSaga);
     yield takeLatest(actionAuth.processSignIn.type, sendSignInAccountSaga);
     yield takeLatest(actionAuth.processVerifyOTP.type, sendVerifyOTPSaga);
     yield takeLatest(actionAuth.processSignInWithFacebook.type, sendSignInWithFacebookSaga);
+    yield takeLatest(actionAuth.processSignInWithGoogle.type, sendSignInWithGoogleSaga);
 }

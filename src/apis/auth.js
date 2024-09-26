@@ -20,6 +20,12 @@ export const apiSignInWithFacebook = () => {
     return axiosClient.get(apiPath)
 }
 
+export const apiSignInWithGoogle = () => {
+    const apiPath = '/api/auth/google'
+
+    return axiosClient.get(apiPath)
+}
+
 export const apiVerifyOTP = (payload) => {
     let params = objectToQueryParams(payload)
     

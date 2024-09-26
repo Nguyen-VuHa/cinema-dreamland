@@ -4,23 +4,23 @@ import { BarLoader } from 'react-spinners';
 import { actionAuth } from '~/redux/reducers/authReducer';
 
 const FacebookLoginButton = () => {
-  const { isProcessSignInWithFacebook } = useSelector(state => state.authState)
+  const { isProcessSignInWithPlatform } = useSelector(state => state.authState)
   const dispatch = useDispatch()
 
   return (
     <button 
-      className=" flex justify-center items-center w-[50%] bg-layout-second text-white
-      rounded-lg shadow-md px-6 py-2 text-sm font-medium transition-all
+      className=" flex justify-center items-center w-[50%] h-[2.5rem] bg-layout-second text-white
+      rounded-lg shadow-md px-6 py-2 text-sm font-medium transition-all 
       hover:bg-primary/50"
       type='button'
       onClick={() => {
-        if(!isProcessSignInWithFacebook) {
+        if(!isProcessSignInWithPlatform) {
           dispatch(actionAuth.processSignInWithFacebook())
         }
       }}
     >
       {
-        isProcessSignInWithFacebook 
+        isProcessSignInWithPlatform 
         ? <BarLoader 
           color="#1877F2"
         />

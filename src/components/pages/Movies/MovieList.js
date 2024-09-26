@@ -14,12 +14,12 @@ function MovieList() {
     const { isFetchMediaMovieList, paginationMovieList, movieList } = useSelector(state => state.mediaState)
 
     const fetchMovieList = () => {
-        // dispatch(actionMedia.setValuePaginationMovieList({
-        //     key: 'page',
-        //     value: paginationMovieList.page + 1,
-        // }))
+        dispatch(actionMedia.setValuePaginationMovieList({
+            key: 'page',
+            value: paginationMovieList.page + 1,
+        }))
 
-        // dispatch(actionMedia.processFetchMovieList(paginationMovieList))
+        dispatch(actionMedia.processFetchMovieList(paginationMovieList))
     }
 
     useEffect(() => {
