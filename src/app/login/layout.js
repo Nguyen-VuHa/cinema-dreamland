@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Suspense } from "react";
 
 function LayoutAuth({ children }) {
 
@@ -7,7 +7,9 @@ function LayoutAuth({ children }) {
             className='w-full h-[100vh] fixed bg-auth-layout bg-cover bg-center bg-no-repeat'
         >
             <div className='w-full h-full flex flex-col justify-center items-center max-sm:justify-start max-sm:mt-5'>
-                {children}  
+                <Suspense>
+                    {children}  
+                </Suspense>
             </div>
         </div>
     );

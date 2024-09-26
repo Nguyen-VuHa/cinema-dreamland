@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 function LayoutWatch({ children }) {
 
     return (
-        <Suspense fallback={<div>Loading layout...</div>}>
+        <Suspense>
             {children}
         </Suspense>
     );
