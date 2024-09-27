@@ -16,7 +16,7 @@ function MovideItem({ onClick, data }) {
 
     return (
         <CardBlur
-            className="p-1 w-full cursor-pointer space-y-3 hover:bg-layout-primary transition-all"
+            className="flex flex-col p-1 w-full cursor-pointer space-y-3 hover:bg-layout-primary transition-all"
             onClick={() => {
                 onClick && onClick()
             }}
@@ -29,7 +29,7 @@ function MovideItem({ onClick, data }) {
                 width={300}
                 height={1}
             />
-            <div className='flex flex-col p-2 space-y-3'>
+            <div className='flex flex-col justify-between grow p-2 space-y-3'>
                 <span className='text-sm text-ellipsis line-clamp-2' title={data.title || 'NO TITLE'}>
                     {data.title || 'NO TITLE'}
                 </span>

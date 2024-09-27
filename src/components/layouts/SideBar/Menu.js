@@ -1,13 +1,10 @@
 "use client"
 
-import React from 'react';
-import MenuItem from './MenuItem';
-import { PiMonitorPlayFill } from "react-icons/pi";
-import { SiThemoviedatabase } from "react-icons/si";
-import { GiTheater } from "react-icons/gi";
 import { usePathname, useRouter } from 'next/navigation';
+import { PiMonitorPlayFill } from "react-icons/pi";
 import { useDispatch } from 'react-redux';
 import { configAction } from '~/redux/reducers/configReducer';
+import MenuItem from './MenuItem';
 
 function Menu() {
     const router = useRouter();

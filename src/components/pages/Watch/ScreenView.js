@@ -79,7 +79,7 @@ function ScreenView() {
 
             let movieClean = movieList.filter(movie => movie.ID != id)
 
-            if (!(movieClean.length > 0))
+            if (movieClean && !(movieClean.length > 0))
                 return
 
             const randomIndex = Math.floor(Math.random() * movieClean.length);
@@ -120,7 +120,7 @@ function ScreenView() {
                 {/* description */}
                 <div className='text-sm text-input-place whitespace-pre-line'>
                     <Description
-                        description={movieDetail?.description} 
+                        description={movieDetail?.description || 'No Description'} 
                     />
                 </div>
             </CardBlur>
