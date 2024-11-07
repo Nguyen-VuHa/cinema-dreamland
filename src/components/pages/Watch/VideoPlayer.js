@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { useEffect, useRef, useState } from 'react';
-import { ACCESS_TOKEN } from '~/constants/cookie';
+import { ACCESS_TOKEN, LOGIN_METHOD } from '~/constants/cookie';
 
 const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoading, setVideoEnded }) => {
     const videoContainerRef = useRef(null);  // Ref cho container
@@ -43,6 +43,12 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoad
             let accessToken = Cookies.get(ACCESS_TOKEN)
 
             if (accessToken) {
+                let methodLogin = Cookies.get(LOGIN_METHOD)
+
+                if(methodLogin) {
+                    accessToken = `${methodLogin}.${accessToken}`
+                }
+
                 hls.config.xhrSetup = function(xhr, url) {
                     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken); // Thêm token vào header
                 };
@@ -206,11 +212,7 @@ const VideoPlayer = ({ videoSource, isLoadVideoError, thumbnailSource, setIsLoad
 
   return (
     <div>
-        {
-            videoSource ? (
-                <div ref={videoContainerRef} />
-            ) : <></> 
-        }
+       <div ref={videoContainerRef} />
     </div>
   );
 };

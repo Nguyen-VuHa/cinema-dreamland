@@ -62,20 +62,22 @@ function SideBar() {
                 </div>
             </div>
             <div className="p-3 mb-5">
-                <Button 
-                    className="space-x-2"
-                    onClick={() => {
-                        Cookies.remove(ACCESS_TOKEN)
-                        Cookies.remove(REFRESH_TOKEN)
-                        Cookies.remove(USER_ID)
-                        Cookies.remove(LOGIN_METHOD)
+                {
+                    isLogin == 1 && <Button 
+                        className="space-x-2"
+                        onClick={() => {
+                            Cookies.remove(ACCESS_TOKEN)
+                            Cookies.remove(REFRESH_TOKEN)
+                            Cookies.remove(USER_ID)
+                            Cookies.remove(LOGIN_METHOD)
 
-                        window.location.reload()
-                    }}
-                >   
-                    <TbLogout2 size={20} />
-                    <span>Đăng xuất</span>
-                </Button>
+                            window.location.reload()
+                        }}
+                    >   
+                        <TbLogout2 size={20} />
+                        <span>Đăng xuất</span>
+                    </Button>
+                }
             </div>
         </div>
     );

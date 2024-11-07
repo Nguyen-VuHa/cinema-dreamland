@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     isMenuSideBar: false,
+    isModalEditLesson: false,
 };
 
 export const configSlice = createSlice({
@@ -10,6 +11,9 @@ export const configSlice = createSlice({
     reducers: {
         setIsMenuSideBar: (state, { payload }) => {
             state.isMenuSideBar = payload;
+        },
+        setIsModalEditLesson: (state, { payload }) => {
+            state.isModalEditLesson = payload;
         },
     },
     extraReducers: () => {},

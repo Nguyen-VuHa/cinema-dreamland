@@ -57,13 +57,15 @@ axiosClient.interceptors.response.use((res) => {
         isRefreshing = true;
         
         let refresToken = Cookies.get(REFRESH_TOKEN)
+        let accessToken = Cookies.get(ACCESS_TOKEN)
         let userID = Cookies.get(USER_ID)
+        let methodLogin = Cookies.get(LOGIN_METHOD)
 
         let payload = {
-            _token: refresToken,
+            _token: refresToken || `${methodLogin}.${accessToken}`,
             _user_id: userID,
         }
-
+        
         const res = await apiRefreshToken(payload)
 
         if (res && res.code === 200) {
