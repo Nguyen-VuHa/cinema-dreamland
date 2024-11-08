@@ -1,17 +1,53 @@
 import React, { useState } from 'react';
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
+import { apiCreateLesson, apiGetListLesson } from '~/apis/learnEnglish';
 import Button from '~/components/ui/Button';
 import Input from '~/components/ui/Input';
 import { configAction } from '~/redux/reducers/configReducer';
+import { lessonAction } from '~/redux/reducers/lessonReducer';
 
 const ModalEditLesson = () => {
     const dispatch = useDispatch()
 
     const [lessonText, setLessonText] = useState('')
     const [errLessonText, setErrlessonText] = useState('')
+    const [isCreateLesson, setIsCreateLesson] = useState(false)
 
     const { isModalEditLesson } = useSelector(state => state.configState)
+
+    const handleCreateLesson = async () => {
+        if(!lessonText) {
+            setErrlessonText("Trường này không được trống")
+            return 
+        }
+
+        if(lessonText.length > 100) {
+            setErrlessonText("Tên bài học không vượt quá 100 ký tự")
+            return 
+        }
+
+
+        setIsCreateLesson(true)
+
+        const res = await apiCreateLesson({
+            _lesson: lessonText
+        })
+
+        if (res && res.code === 200) {
+            let resList = await apiGetListLesson()
+
+            if(resList && resList.code === 200) {
+                dispatch(lessonAction.setLessonList(resList.data))
+            }
+        } else {
+            alert("create failed")
+        }
+
+        setIsCreateLesson(false)
+        setLessonText('')
+        dispatch(configAction.setIsModalEditLesson(false))
+    }
 
     return (
         <div
@@ -48,7 +84,10 @@ const ModalEditLesson = () => {
                         errMessage={errLessonText}
                     />
                     <Button
-                    
+                        onClick={() => {
+                            handleCreateLesson()
+                        }}
+                        loading={isCreateLesson}
                     >
                         <span>Lưu lại</span>
                     </Button>
