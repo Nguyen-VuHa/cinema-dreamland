@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isMenuSideBar: false,
     isModalEditLesson: false,
+    isModelVocabulary: false,
+    isLearnEnglish: false,
 };
 
 export const configSlice = createSlice({
@@ -14,6 +16,12 @@ export const configSlice = createSlice({
         },
         setIsModalEditLesson: (state, { payload }) => {
             state.isModalEditLesson = payload;
+        },
+        setIsModalVocabulary: (state, { payload }) => {
+            state.isModelVocabulary = payload;
+        },
+        setIsModalLearnEnglish: (state, { payload }) => {
+            state.isLearnEnglish = payload;
         },
     },
     extraReducers: () => {},

@@ -15,3 +15,19 @@ export const apiGetListLesson = () => {
 
     return axiosClient.get(apiPath)
 }
+
+export const apiGetVocabulary = (payload) => {
+    let params = objectToQueryParams(payload)
+
+    const apiPath = 'api/word/list?' + params
+
+    return axiosClient.get(apiPath)
+}
+
+export const apiCreateVocabulary = (payload) => {
+    let params = objectToQueryParams(payload)
+    
+    const apiPath = 'api/word/create?' + params
+
+    return axiosClient.get(apiPath)
+}

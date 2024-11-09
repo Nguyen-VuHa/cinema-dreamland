@@ -51,7 +51,7 @@ const ModalEditLesson = () => {
 
     return (
         <div
-            className={`fixed flex justify-center items-center top-0 left-0 w-full h-[100vh] transition-all ${isModalEditLesson ? 'opacity-1 z-[99999]' : 'opacity-0 z-[-99999]'}  `}
+            className={`fixed flex justify-center items-center top-0 left-0 w-full h-[100vh] transition-all ${isModalEditLesson ? 'opacity-1 z-[99999]' : 'opacity-0 z-[-99999]'}`}
         >
             {/* display background */}
             <div className='absolute w-full h-full top-0 left-0 bg-[#0000004d] z-[-1]' />

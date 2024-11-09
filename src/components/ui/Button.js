@@ -3,7 +3,7 @@
 import React from 'react';
 import { HashLoader } from 'react-spinners';
 
-function Button({ className, type, loading, loadingText, onClick,  children }) {
+function Button({ className, type, loading, loadingText, onClick,  children, ...props }) {
     return (
         <button
             className={ 
@@ -17,6 +17,7 @@ function Button({ className, type, loading, loadingText, onClick,  children }) {
                     onClick && onClick(e)
                 }
             }}
+            {...props}
         >
             { loading ? 
                 <div className='flex space-x-2 items-center'>

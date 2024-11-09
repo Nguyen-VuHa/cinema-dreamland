@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { configAction } from '~/redux/reducers/configReducer';
 import { lessonAction } from '~/redux/reducers/lessonReducer';
 import { apiGetListLesson } from '~/apis/learnEnglish';
+import ModelVocabulary from './ModelVocabulary';
+import ModelLearnEnglish from './ModelLearning';
 
 const LessonList = () => {
     const dispatch = useDispatch()
@@ -29,9 +31,9 @@ const LessonList = () => {
 
     return (
         <>
-            <ModalEditLesson 
-            
-            />
+            <ModalEditLesson />
+            <ModelVocabulary />
+            <ModelLearnEnglish />
             <div
                 className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"
             >

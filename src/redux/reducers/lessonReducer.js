@@ -4,6 +4,7 @@ const initialState = {
     isFetchLessonList: false,
     isCreateLesson: false,
     lessons: [],
+    lessonID: null,
 };
 
 export const lessonSlice = createSlice({
@@ -12,6 +13,9 @@ export const lessonSlice = createSlice({
     reducers: {
         setLessonList: (state, {payload}) => {
             state.lessons = payload
+        },
+        setLessonID: (state, {payload}) => {
+            state.lessonID = payload
         },
     },
     extraReducers: () => {},
